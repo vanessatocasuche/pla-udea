@@ -1,0 +1,32 @@
+.selectContainer {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.selectContainer label {
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: var(--roboto-slab);
+  margin-bottom: 0.25rem;
+}
+
+.select,
+.select:is(:hover, :focus) {
+  border: 3px solid var(--primary-color-2);
+  border-radius: 0.5rem;
+  outline: none;
+  font-size: 1.25rem;
+  font-family: var(--roboto-slab);
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.select:required + label::after {
+  content: '*';
+  color: var(--secondary-color-red);
+}
+
+.select:disabled {
+  background: var(--disabled-color);
+  cursor: not-allowed;
+}

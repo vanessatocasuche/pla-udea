@@ -1,3 +1,5 @@
+import Styles from '@/styles/Select.module.css'
+
 /**
  * Componente de selección de opciones.
  *
@@ -26,14 +28,14 @@ export default function Select({ options, value, label, onChange, ...props }) {
   }
 
   return (
-    <div>
-      {label && (
-        <label className="select" htmlFor={props.id}>
-          {label}
-        </label>
-      )}
-
-      <select value={value} id={props.id} onChange={handleChange} {...props}>
+    <div className={Styles.selectContainer}>
+      <select
+        className={Styles.select}
+        value={value}
+        id={props.id}
+        onChange={handleChange}
+        {...props}
+      >
         <option value="" disabled={props.required}>
           {props.placeholder || PLACEHOLDER_MESSAGE}
         </option>
@@ -46,6 +48,12 @@ export default function Select({ options, value, label, onChange, ...props }) {
 
         {props.children}
       </select>
+
+      {label && (
+        <label className="select" htmlFor={props.id}>
+          {label}
+        </label>
+      )}
     </div>
   )
 }
