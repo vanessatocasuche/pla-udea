@@ -1,4 +1,4 @@
-import Styles from '@/styles/Select.module.css'
+import Styles from '@/styles/Input.module.css'
 
 /**
  * Componente de selección de opciones.
@@ -29,7 +29,7 @@ export default function Input({ value, label, onChange, pattern, ...props }) {
         <div className={Styles.selectContainer}>
             <input
                 type={props?.type ?? 'text'}
-                className={Styles.select}
+                className={Styles.input}
                 value={value}
                 id={props.id}
                 onChange={handleChange}
