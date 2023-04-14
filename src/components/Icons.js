@@ -1,6 +1,17 @@
 import { theme } from '@/theme/theme'
 const COLORS = theme.colors.secondary
 
+/**
+ *
+ * Componente de icono de más(+).
+ *
+ * @param {Object} props - Propiedades del componente.
+ * @param {number} [props.width=48] - Ancho del icono.
+ * @param {number} [props.height=48] - Altura del icono.
+ * @param {string} [props.color] - Color del icono.
+ *
+ * @returns {JSX.Element} Componente de icono de más(+).
+ */
 function PlusIcon({ width, height, color, ...props }) {
   return (
     <svg
@@ -22,6 +33,17 @@ function PlusIcon({ width, height, color, ...props }) {
   )
 }
 
+/**
+ *
+ * Componente de icono de papelera (Eliminar).
+ *
+ * @param {Object} props - Propiedades del componente.
+ * @param {number} [props.width=48] - Ancho del icono.
+ * @param {number} [props.height=48] - Altura del icono.
+ * @param {string} [props.color] - Color del icono.
+ *
+ * @returns {JSX.Element} Componente de icono de papelera (Eliminar).
+ */
 function TrashIcon({ width, height, color, ...props }) {
   return (
     <svg
@@ -44,6 +66,17 @@ function TrashIcon({ width, height, color, ...props }) {
   )
 }
 
+/**
+ *
+ * Componente de icono de check(✓).
+ *
+ * @param {Object} props - Propiedades del componente.
+ * @param {number} [props.width=48] - Ancho del icono.
+ * @param {number} [props.height=48] - Altura del icono.
+ * @param {string} [props.color] - Color del icono.
+ *
+ * @returns {JSX.Element} Componente de icono de check(✓).
+ */
 function CheckIcon({ width, height, color, ...props }) {
   return (
     <svg
@@ -64,6 +97,17 @@ function CheckIcon({ width, height, color, ...props }) {
   )
 }
 
+/**
+ *
+ * Componente de icono de flecha(<-).
+ *
+ * @param {Object} props - Propiedades del componente.
+ * @param {number} [props.width=48] - Ancho del icono.
+ * @param {number} [props.height=48] - Altura del icono.
+ * @param {string} [props.color] - Color del icono.
+ *
+ * @returns {JSX.Element} Componente de icono de flecha(<-).
+ */
 function ArrowIcon({ width, height, color, ...props }) {
   return (
     <svg
@@ -86,6 +130,16 @@ function ArrowIcon({ width, height, color, ...props }) {
   )
 }
 
+/**
+ * Componente de icono de editar.
+ *
+ * @param {Object} props - Propiedades del componente.
+ * @param {number} [props.width=48] - Ancho del icono.
+ * @param {number} [props.height=48] - Altura del icono.
+ * @param {string} [props.color] - Color del icono.
+ *
+ * @returns {JSX.Element} Componente de icono de editar.
+ */
 function EditIcon({ width, height, color, ...props }) {
   return (
     <svg
@@ -107,6 +161,16 @@ function EditIcon({ width, height, color, ...props }) {
   )
 }
 
+/**
+ * Componente de icono de cancelar o cerar (X).
+ *
+ * @param {Object} props - Propiedades del componente.
+ * @param {number} [props.width=48] - Ancho del icono.
+ * @param {number} [props.height=48] - Altura del icono.
+ * @param {string} [props.color] - Color del icono.
+ *
+ * @returns {JSX.Element} Componente de icono de cancelar o cerar (X).
+ */
 function XIcon({ width, height, color, ...props }) {
   return (
     <PlusIcon
@@ -119,6 +183,16 @@ function XIcon({ width, height, color, ...props }) {
   )
 }
 
+/**
+ * Componente de icono de la Universidad de Antioquia simplificado (UdeA).
+ *
+ * @param {Object} props - Propiedades del componente.
+ * @param {number} [props.width=48] - Ancho del icono.
+ * @param {number} [props.height=48] - Altura del icono.
+ * @param {string} [props.color] - Color del icono.
+ *
+ * @returns {JSX.Element} Componente de icono de la Universidad de Antioquia simplificado (UdeA).
+ */
 function UdeaIcon({ width, height, color, ...props }) {
   return (
     <svg
