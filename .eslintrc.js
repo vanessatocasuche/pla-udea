@@ -4,6 +4,11 @@ module.exports = {
     es2021: true,
     node: true
   },
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
   extends: [
     'plugin:react/recommended',
     'standard'
@@ -20,6 +25,7 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
-    'space-before-function-paren': 'off'
+    'space-before-function-paren': 'off',
+    'multiline-ternary': 'off'
   }
 }
