@@ -1,13 +1,15 @@
+import { theme } from '@/theme/theme'
+const COLORS = theme.colors.secondary
+
 function PlusIcon({ width, height, color, ...props }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="icon iconPlus"
       width={width || 48}
       height={height || 48}
       viewBox="0 0 24 24"
       strokeWidth={props.strokeWidth || 2}
-      stroke={color || 'currentColor'}
+      stroke={COLORS[color] || 'currentColor'}
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -24,12 +26,11 @@ function TrashIcon({ width, height, color, ...props }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="icon iconTrash"
       width={width || 48}
       height={height || 48}
       viewBox="0 0 24 24"
       strokeWidth={props.strokeWidth || 2}
-      stroke={color || 'currentColor'}
+      stroke={COLORS[color] || 'currentColor'}
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -47,12 +48,11 @@ function CheckIcon({ width, height, color, ...props }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="icon iconCheck"
       width={width || 48}
       height={height || 48}
       viewBox="0 0 24 24"
       strokeWidth={props.strokeWidth || 2}
-      stroke={color || 'currentColor'}
+      stroke={COLORS[color] || 'currentColor'}
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -68,12 +68,11 @@ function ArrowIcon({ width, height, color, ...props }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="icon iconArrow"
       width={width || 48}
       height={height || 48}
       viewBox="0 0 24 24"
       strokeWidth={props.strokeWidth || 2}
-      stroke={color || 'currentColor'}
+      stroke={COLORS[color] || 'currentColor'}
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -91,12 +90,11 @@ function EditIcon({ width, height, color, ...props }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="icon iconEdit"
       width={width || 48}
       height={height || 48}
       viewBox="0 0 24 24"
       strokeWidth={props.strokeWidth || 2}
-      stroke={color || 'currentColor'}
+      stroke={COLORS[color] || 'currentColor'}
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -112,7 +110,6 @@ function EditIcon({ width, height, color, ...props }) {
 function XIcon({ width, height, color, ...props }) {
   return (
     <PlusIcon
-      className="icon iconX"
       style={{ transform: 'rotate(45deg)' }}
       color={color}
       width={width}
@@ -126,13 +123,12 @@ function UdeaIcon({ width, height, color, ...props }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="icon iconEdit"
       width={width || 212}
       height={height || 64}
       viewBox="0 0 212 64"
       strokeWidth={props.strokeWidth || 2}
-      stroke={color || 'currentColor'}
-      fill={color || 'currentColor'}
+      stroke={COLORS[color] || 'currentColor'}
+      fill={COLORS[color] || 'currentColor'}
       strokeLinecap="round"
       strokeLinejoin="round"
       {...props}
