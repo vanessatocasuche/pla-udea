@@ -1,0 +1,75 @@
+/*
+* Boton Principal
+*/
+.mainButton {
+  width: 20rem;
+  height: 100%;
+  padding: 1rem;
+  cursor: pointer;
+  background: var(--primary-color-1);
+  border-radius: 0.75rem;
+  border: none;
+  font-family: var(--roboto-slab);
+  color: var(--background-color);
+  font-size: 1.5rem;
+  font-weight: 500;
+  transition: background ease-in-out 0.2s;
+}
+
+.mainButton:hover {
+  background: var(--primary-color-2);
+}
+
+.mainButton:disabled, .roundButton:disabled, .secondaryButton:disabled {
+  cursor: not-allowed;
+  background: var(--disabled-color);
+}
+
+/*
+* Boton secundario
+*/
+.secondaryButton {
+  width: 15rem;
+  height: 100%;
+  padding: 0.15rem;
+  cursor: pointer;
+  background: var(--primary-color-3);
+  border-radius: 2rem;
+  border: none;
+  font-family: var(--roboto-slab);
+  color: var(--background-color);
+  font-size: 1.5rem;
+  font-weight: 500;
+  transition: transform ease-in-out 0.2s;
+}
+
+.secondaryButton:hover {
+  opacity: 0.9;
+  transform: scale(1.025);
+}
+
+/*
+* Boton redondo
+*/
+.roundButton {
+  border: none;
+  padding: 0.5rem;
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+  background: var(--secondary-color-purple);
+  border-radius: 50%;
+  transition: transform ease-in-out 0.2s;
+}
+
+.roundButton.fixed {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  
+}
+
+.roundButton:hover {
+  transform: scale(1.15)
+
+}
