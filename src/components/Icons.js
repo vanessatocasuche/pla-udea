@@ -184,6 +184,37 @@ function XIcon({ width, height, color, ...props }) {
 }
 
 /**
+ * Componente de icono de cerrar sesión
+ *
+ * @param {Object} props - Propiedades del componente.
+ * @param {number} [props.width=48] - Ancho del icono.
+ * @param {number} [props.height=48] - Altura del icono.
+ * @param {string} [props.color] - Color del icono.
+ *
+ * @returns {JSX.Element} Componente de icono de cerrar sesión.
+ */
+function LogoutIcon({ width, height, color, ...props }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width || 48}
+      height={height || 48}
+      viewBox="0 0 24 24"
+      strokeWidth={props.strokeWidth || 2}
+      stroke={COLORS[color] || 'currentColor'}
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M0 0h24v24H0z" stroke="none" />
+      <path d="M14 8V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2h7a2 2 0 002-2v-2" />
+      <path d="M7 12h14l-3-3m0 6l3-3" />
+    </svg>
+  )
+}
+
+/**
  * Componente de icono de la Universidad de Antioquia simplificado (UdeA).
  *
  * @param {Object} props - Propiedades del componente.
@@ -227,4 +258,4 @@ function UdeaIcon({ width, height, color, ...props }) {
   )
 }
 
-export { PlusIcon, TrashIcon, CheckIcon, ArrowIcon, EditIcon, XIcon, UdeaIcon }
+export { PlusIcon, TrashIcon, CheckIcon, ArrowIcon, EditIcon, XIcon, LogoutIcon, UdeaIcon }
