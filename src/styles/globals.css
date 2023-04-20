@@ -19,7 +19,7 @@
   --secondary-color-yellow: #f9a12c;
   --secondary-color-violet: #532d87;
 
-  --disabled-color: #BFBFBF;
+  --disabled-color: #bfbfbf;
 }
 
 * {
@@ -37,4 +37,36 @@ body {
 
 body {
   background: var(--background-color);
+}
+
+h2,
+h3,
+h4 {
+  color: var(--primary-color-2);
+  line-height: 1.2;
+  font-family: var(--roboto-slab);
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color-1);
+  font-family: var(--roboto-slab);
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+h4 {
+  font-size: 1rem;
+  font-weight: 400;
 }
