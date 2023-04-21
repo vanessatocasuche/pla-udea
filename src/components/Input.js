@@ -15,34 +15,34 @@ import Styles from '@/styles/Input.module.css'
  * @returns {JSX.Element} Componente de selección de opciones.
  */
 export default function Input({ value, label, onChange, pattern, ...props }) {
+  /**
+   * Función llamada al cambiar la selección.
+   *
+   * @param {object} event - Evento de cambio.
+   */
+  const handleChange = (event) => {
+    onChange(event.target.value)
+  }
 
-    /**
-     * Función llamada al cambiar la selección.
-     *
-     * @param {object} event - Evento de cambio.
-     */
-    const handleChange = (event) => {
-        onChange(event.target.value)
-    }
+  return (
+    <div className={Styles.selectContainer} style={props.style ?? {}}>
+      <input
+        type={props?.type ?? 'text'}
+        className={Styles.input}
+        value={value}
+        id={props.id}
+        onChange={handleChange}
+        placeholder={props.placeholder}
+        pattern={pattern}
+        required={props.required}
+        {...props}
+      />
 
-    return (
-        <div className={Styles.selectContainer}>
-            <input
-                type={props?.type ?? 'text'}
-                className={Styles.input}
-                value={value}
-                id={props.id}
-                onChange={handleChange}
-                placeholder={props.placeholder}
-                pattern={pattern}
-                required={props.required}
-                {...props} />
-
-            {label && (
-                <label className="select" htmlFor={props.id}>
-                    {label}
-                </label>
-            )}
-        </div>
-    )
+      {label && (
+        <label className="select" htmlFor={props.id}>
+          {label}
+        </label>
+      )}
+    </div>
+  )
 }
