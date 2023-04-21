@@ -28,9 +28,29 @@
   margin: 0;
 }
 
+/* Cambiar el color y el ancho del scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+/* Cambiar el color y el aspecto del thumb (la barra deslizante) */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #aaa;
+}
+
+/* Cambiar el color y el aspecto del track (el fondo del scrollbar) */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #F5F5F5;
+}
+
+
 html,
 body {
   max-width: 100vw;
+  min-height: 100vh;
   overflow-x: hidden;
   font-size: 16px;
 }
@@ -69,4 +89,26 @@ h3 {
 h4 {
   font-size: 1rem;
   font-weight: 400;
+}
+
+p {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.5;
+  font-family: var(--roboto-slab);
+}
+
+.container {
+  width: min(100%, 1200px);
+  margin: 2rem auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+  gap: 1.5rem;
 }
