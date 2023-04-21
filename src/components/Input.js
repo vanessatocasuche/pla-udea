@@ -1,4 +1,5 @@
 import Styles from '@/styles/Input.module.css'
+import { useState } from 'react'
 
 /**
  * Componente de selección de opciones.
@@ -21,16 +22,23 @@ export default function Input({ value, label, onChange, pattern, ...props }) {
    * @param {object} event - Evento de cambio.
    */
   const handleChange = (event) => {
-    onChange(event.target.value)
+    if (onChange) {
+      onChange(event.target.value)
+    } else {
+      setInpValue(event.target.value)
+    }
   }
+
+  const [inpValue, setInpValue] = useState('')
 
   return (
     <div className={Styles.selectContainer} style={props.style ?? {}}>
       <input
         type={props?.type ?? 'text'}
         className={Styles.input}
-        value={value}
+        value={value || inpValue}
         id={props.id}
+        name={props.name || props.id}
         onChange={handleChange}
         placeholder={props.placeholder}
         pattern={pattern}
