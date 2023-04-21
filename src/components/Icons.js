@@ -214,6 +214,28 @@ function LogoutIcon({ width, height, color, ...props }) {
   )
 }
 
+function SearchIcon({ color, width, height, ...props }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="icon icon-tabler icon-tabler-search"
+      width={width || 48}
+      height={height || 48}
+      viewBox="0 0 24 24"
+      strokeWidth={props.strokeWidth || 2}
+      stroke={COLORS[color] || 'currentColor'}
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M0 0h24v24H0z" stroke="none" />
+      <circle cx={10} cy={10} r={7} />
+      <path d="M21 21L15 15" />
+    </svg>
+  )
+}
+
 /**
  * Componente de icono de la Universidad de Antioquia simplificado (UdeA).
  *
@@ -258,4 +280,14 @@ function UdeaIcon({ width, height, color, ...props }) {
   )
 }
 
-export { PlusIcon, TrashIcon, CheckIcon, ArrowIcon, EditIcon, XIcon, LogoutIcon, UdeaIcon }
+export {
+  PlusIcon,
+  TrashIcon,
+  CheckIcon,
+  ArrowIcon,
+  EditIcon,
+  XIcon,
+  SearchIcon,
+  LogoutIcon,
+  UdeaIcon
+}
