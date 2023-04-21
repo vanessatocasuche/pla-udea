@@ -16,11 +16,13 @@ const NavBar = ({ logged, title, handlerLogout }) => {
       <nav className={Styles.navBar}>
         <UdeaIcon color="white" style={{ height: '100%', width: 'auto' }} />
         {title && <h3>{title}</h3>}
-        {logged && (
-          <button className={Styles.logoutBtn} onClick={handlerLogout}>
-            <LogoutIcon color="white" height="2.5rem" />
-          </button>
-        )}
+        <button
+          className={Styles.logoutBtn}
+          onClick={handlerLogout}
+          style={{ visibility: logged ? 'visible' : 'hidden' }}
+        >
+          <LogoutIcon color="white" height="2.5rem" />
+        </button>
       </nav>
     </header>
   )
