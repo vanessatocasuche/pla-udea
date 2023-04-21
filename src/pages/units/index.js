@@ -11,6 +11,7 @@ const BASE_API_URL = 'http://localhost:3000/api'
 const Units = () => {
   const [units, setUnits] = useState([])
   const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
   const router = useRouter()
 
   useEffect(() => {
@@ -27,6 +28,24 @@ const Units = () => {
     router.push('/create-unit')
   }
 
+  const handleSearch = (event) => {
+    event.preventDefault()
+    if (search) {
+      const filteredUnits = units.filter((unit) =>
+        unit.name.toLowerCase().includes(search.toLowerCase())
+      )
+      setUnits(filteredUnits)
+    } else {
+      const fetchUnits = async () => {
+        const response = await fetch(`${BASE_API_URL}/api`)
+        const data = await response.json()
+        setUnits(data)
+        setLoading(false)
+      }
+      fetchUnits()
+    }
+  }
+
   return (
     <>
       <NavBar />
@@ -36,6 +55,7 @@ const Units = () => {
         <main className="container">
           <h2>Unidades Académicas</h2>
           <form
+            onSubmit={handleSearch}
             style={{
               alignSelf: 'center',
               width: 'min(45rem, 100%)',
@@ -46,6 +66,8 @@ const Units = () => {
           >
             <Input
               type="search"
+              value={search}
+              onChange={setSearch}
               placeholder="Buscar unidad"
               style={{ width: '100%', alignSelf: 'stretch' }}
             />
@@ -61,6 +83,7 @@ const Units = () => {
                 content={unit.name}
               />
             ))}
+            {units.length === 0 && (<p> No hay unidades que coincidan con la búsqueda </p>)}
             <RoundButton fixed color="purple" handler={handleCreate}>
               <PlusIcon color="white" height="2rem" width="2rem" />
             </RoundButton>
