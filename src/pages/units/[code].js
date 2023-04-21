@@ -22,7 +22,6 @@ const ViewUnit = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data[0])
         setData(data[0])
         return data
       })
@@ -40,7 +39,7 @@ const ViewUnit = () => {
       <NavBar />
       {loading ? (
         <p>Loading...</p>
-      ) : (
+      ) : data ? (
         <main className="container">
           <div style={{ display: 'flex', gap: '1rem' }}>
             <RoundButton color="yellow" handler={() => router.back()}>
@@ -48,10 +47,7 @@ const ViewUnit = () => {
             </RoundButton>
             <h1>{data.name}</h1>
           </div>
-          <section
-            className="container"
-            style={{ margin: '0.5rem 0 1rem 3rem' }}
-          >
+          <section className="subContainer">
             <div>
               <h3>Descripción de la unidad académica</h3>
               <p>{data.description}</p>
@@ -77,11 +73,8 @@ const ViewUnit = () => {
               <p>{data.costCenter}</p>
             </div>
           </section>
-          <h2>Subunidades académicas</h2>
-          <section
-            className="container"
-            style={{ margin: '0.5rem 0 1rem 3rem' }}
-          >
+          <section className="subContainer">
+            <h2>Subunidades Académicas</h2>
             {data.subunits ? (
               <div className="gridContainer">
                 {data.subunits.map((subunit) => (
@@ -96,6 +89,8 @@ const ViewUnit = () => {
             <EditIcon color="white" width="2rem" height="2rem" />
           </RoundButton>
         </main>
+      ) : (
+        <p>No hay datos registrados para la unidad académica solicitada</p>
       )}
     </>
   )
