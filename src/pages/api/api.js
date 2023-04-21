@@ -78,9 +78,20 @@ const DATA = [
 ]
 
 export default function handler(req, res) {
-  if (req.query?.code) {
-    res.status(200).json(DATA.filter((item) => item.code === req.query.code))
-  } else {
-    res.status(200).json(DATA)
+  if (req.method === 'GET') {
+    if (req.query?.code) {
+      res.status(200).json(DATA.filter((item) => item.code === req.query.code))
+    } else {
+      res.status(200).json(DATA)
+    }
+  } else if (req.method === 'POST') {
+    const data = req.body
+    const newUnit = {
+      id: DATA.length + 1,
+      ...data
+    }
+    DATA.push(newUnit)
+    res.status(201).json(newUnit)
+    console.log(DATA)
   }
 }
