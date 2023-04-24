@@ -1,0 +1,27 @@
+.navBar {
+  background-color: var(--primary-color-3);
+  padding: 0.625rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 3.75rem;
+}
+
+.logoutBtn {
+  background-color: transparent;
+  border: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.logoutBtn:hover svg {
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+.navBar h3 {
+  color: white;
+}
