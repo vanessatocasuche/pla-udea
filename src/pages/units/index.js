@@ -6,7 +6,7 @@ import NavBar from '@/components/NavBar'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-const BASE_API_URL = 'http://localhost:3000/api'
+const BASE_API_URL = process.env.BASE_API_URL
 
 const Units = () => {
   const [units, setUnits] = useState([])

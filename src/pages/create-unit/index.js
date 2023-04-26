@@ -7,7 +7,7 @@ import { RoundButton } from '@/components/Buttons'
 import NavBar from '@/components/NavBar'
 import { useRouter } from 'next/router'
 
-const BASE_API_URL = 'http://localhost:3000/api'
+const BASE_API_URL = process.env.BASE_API_URL
 const UNIT_TYPES = ['Facultad', 'Escuela', 'Institutos', 'Corporación']
 
 export default function CreateUnit() {
