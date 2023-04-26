@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 const ViewUnit = () => {
-  const BASE_API_URL = 'http://localhost:3000/api'
+  const BASE_API_URL = process.env.BASE_API_URL
 
   const router = useRouter()
   const { code } = router.query
