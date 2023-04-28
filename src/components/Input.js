@@ -15,7 +15,7 @@ import { useState } from 'react'
  *
  * @returns {JSX.Element} Componente de selección de opciones.
  */
-export default function Input({ value, label, onChange, pattern, ...props }) {
+export default function Input({ value, label, onChange, pattern, initialValue, ...props }) {
   /**
    * Función llamada al cambiar la selección.
    *
@@ -29,7 +29,7 @@ export default function Input({ value, label, onChange, pattern, ...props }) {
     }
   }
 
-  const [inpValue, setInpValue] = useState('')
+  const [inpValue, setInpValue] = useState(initialValue || '')
 
   return (
     <div className={Styles.selectContainer} style={props.style ?? {}}>
