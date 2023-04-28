@@ -62,7 +62,7 @@ export default function CreateUnit() {
           <h2>Información general</h2>
           <fieldset className="subContainer">
             <Input
-              id="name"
+              id="nameAcademicUnit"
               placeholder="Nombre de la unidad académica"
               label="Nombre de la unidad académica"
               pattern={PATTERNS.name}
@@ -70,7 +70,7 @@ export default function CreateUnit() {
               required
             />
             <Input
-              id="code"
+              id="codeAcademicUnit"
               placeholder="Código de la unidad académica"
               label="Código de la unidad académica"
               pattern={PATTERNS.code}
@@ -78,7 +78,7 @@ export default function CreateUnit() {
               required
             />
             <Select
-              id="type"
+              id="typeAcademicUnit"
               name="type"
               onChange={setType}
               value={type}
@@ -88,7 +88,7 @@ export default function CreateUnit() {
               required
             />
             <Input
-              id="decane"
+              id="deanName"
               placeholder="Nombre del decano"
               label="Nombre del decano"
               pattern={PATTERNS.name}
@@ -112,13 +112,13 @@ export default function CreateUnit() {
               required
             />
             <Input
-              id="creationUrl"
+              id="urlCreationAcademicUnit"
               placeholder="Enlace de acuerdo de creación"
               label="Enlace de acuerdo de creación"
               type="url"
             />
             <Input
-              id="costCenter"
+              id="costCenterCode"
               placeholder="Código de centro de costos"
               label="Código de centro de costos"
               pattern={PATTERNS.centerCode}
