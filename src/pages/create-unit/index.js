@@ -6,6 +6,7 @@ import { CheckIcon, XIcon, ArrowIcon } from '@/components/Icons'
 import { RoundButton } from '@/components/Buttons'
 import NavBar from '@/components/NavBar'
 import { useRouter } from 'next/router'
+import { PATTERNS, TITLES } from '@/constants/forms'
 
 const BASE_API_URL = process.env.BASE_API_URL
 const UNIT_TYPES = ['Facultad', 'Escuela', 'Institutos', 'Corporación']
@@ -33,11 +34,13 @@ export default function CreateUnit() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(formData)
-    })
-      .then((response) => response.json())
-      .then((data) => {
+    }).then((response) => {
+      if (response.ok) {
         router.push('/units')
-      })
+        return response.json()
+      }
+      alert('Error al crear la unidad académica')
+    })
   }
 
   function handleCancel(event) {
@@ -62,12 +65,16 @@ export default function CreateUnit() {
               id="name"
               placeholder="Nombre de la unidad académica"
               label="Nombre de la unidad académica"
+              pattern={PATTERNS.name}
+              title={TITLES.name}
               required
             />
             <Input
               id="code"
               placeholder="Código de la unidad académica"
               label="Código de la unidad académica"
+              pattern={PATTERNS.code}
+              title={TITLES.code}
               required
             />
             <Select
@@ -84,23 +91,38 @@ export default function CreateUnit() {
               id="decane"
               placeholder="Nombre del decano"
               label="Nombre del decano"
+              pattern={PATTERNS.name}
+              title={TITLES.name}
               required
             />
             <Input
               id="description"
               placeholder="Descripción"
               label="Descripción"
+              pattern={PATTERNS.description}
+              title={TITLES.description}
+              required
+            />
+            <Input
+              id="ubicationAcademicUnit"
+              placeholder="Ubicación de la unidad académica"
+              label="Ubicación de la unidad académica"
+              pattern={PATTERNS.address}
+              title={TITLES.address}
               required
             />
             <Input
               id="creationUrl"
               placeholder="Enlace de acuerdo de creación"
               label="Enlace de acuerdo de creación"
+              type="url"
             />
             <Input
               id="costCenter"
               placeholder="Código de centro de costos"
               label="Código de centro de costos"
+              pattern={PATTERNS.centerCode}
+              title={TITLES.centerCode}
               required
             />
           </fieldset>
