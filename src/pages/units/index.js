@@ -10,6 +10,7 @@ const BASE_API_URL = process.env.BASE_API_URL
 
 const Units = () => {
   const [units, setUnits] = useState([])
+  const [backUpUnits, setBackUpUnits] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const router = useRouter()
@@ -19,6 +20,7 @@ const Units = () => {
       const response = await fetch(`${BASE_API_URL}/api`)
       const data = await response.json()
       setUnits(data)
+      setBackUpUnits(data)
       setLoading(false)
     }
     fetchUnits()
@@ -31,18 +33,26 @@ const Units = () => {
   const handleSearch = (event) => {
     event.preventDefault()
     if (search) {
-      const filteredUnits = units.filter(({ nameAcademicUnit }) =>
-        nameAcademicUnit.toLowerCase().includes(search.toLowerCase())
-      )
-      setUnits(filteredUnits)
+      const filter = backUpUnits.filter(({ nameAcademicUnit }) => {
+        const name = nameAcademicUnit
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+        search
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+        return name.includes(search)
+      })
+      setUnits(filter)
     } else {
-      const fetchUnits = async () => {
-        const response = await fetch(`${BASE_API_URL}/api`)
-        const data = await response.json()
-        setUnits(data)
-        setLoading(false)
-      }
-      fetchUnits()
+      setUnits(backUpUnits)
+    }
+  }
+
+  const handleChange = (event) => {
+    if (event.target.value === '') {
+      setUnits(backUpUnits)
     }
   }
 
@@ -56,6 +66,7 @@ const Units = () => {
           <h2>Unidades Académicas</h2>
           <form
             onSubmit={handleSearch}
+            onChange={handleChange}
             style={{
               alignSelf: 'center',
               width: 'min(45rem, 100%)',
@@ -83,13 +94,13 @@ const Units = () => {
                 content={nameAcademicUnit}
               />
             ))}
-            {units.length === 0 && (
-              <p> No hay unidades que coincidan con la búsqueda </p>
-            )}
             <RoundButton fixed color="purple" handler={handleCreate}>
               <PlusIcon color="white" height="2rem" width="2rem" />
             </RoundButton>
           </div>
+          {units.length === 0 && (
+            <p> No hay unidades que coincidan con la búsqueda </p>
+          )}
         </main>
       )}
     </>
