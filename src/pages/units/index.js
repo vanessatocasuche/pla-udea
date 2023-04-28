@@ -31,8 +31,8 @@ const Units = () => {
   const handleSearch = (event) => {
     event.preventDefault()
     if (search) {
-      const filteredUnits = units.filter((unit) =>
-        unit.name.toLowerCase().includes(search.toLowerCase())
+      const filteredUnits = units.filter(({ nameAcademicUnit }) =>
+        nameAcademicUnit.toLowerCase().includes(search.toLowerCase())
       )
       setUnits(filteredUnits)
     } else {
@@ -76,14 +76,16 @@ const Units = () => {
             </RoundButton>
           </form>
           <div className="gridContainer">
-            {units.map((unit) => (
+            {units.map(({ codeAcademicUnit, nameAcademicUnit }) => (
               <Card
-                key={`${unit.code}`}
-                id={`/units/${unit.code}`}
-                content={unit.name}
+                key={`${codeAcademicUnit}`}
+                id={`/units/${codeAcademicUnit}`}
+                content={nameAcademicUnit}
               />
             ))}
-            {units.length === 0 && (<p> No hay unidades que coincidan con la búsqueda </p>)}
+            {units.length === 0 && (
+              <p> No hay unidades que coincidan con la búsqueda </p>
+            )}
             <RoundButton fixed color="purple" handler={handleCreate}>
               <PlusIcon color="white" height="2rem" width="2rem" />
             </RoundButton>

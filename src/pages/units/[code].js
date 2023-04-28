@@ -45,7 +45,7 @@ const ViewUnit = () => {
             <RoundButton color="yellow" handler={() => router.back()}>
               <ArrowIcon color="white" height="2rem" width="2rem" />
             </RoundButton>
-            <h1>{data.name}</h1>
+            <h1>{data.nameAcademicUnit}</h1>
           </div>
           <section className="subContainer">
             <div>
@@ -54,23 +54,23 @@ const ViewUnit = () => {
             </div>
             <div>
               <h3>Tipo de unidad académica</h3>
-              <p>{data.type}</p>
+              <p>{data.typeAcademicUnit}</p>
             </div>
             <div>
               <h3>Decano</h3>
-              <p>{data.decane}</p>
+              <p>{data.deanName}</p>
             </div>
             <div>
               <h3>Código de la unidad académica</h3>
-              <p>{data.code}</p>
+              <p>{data.codeAcademicUnit}</p>
             </div>
             <div>
               <h3>Enlace de acuerdo de creación de la unidad académica</h3>
-              <p>{data.creationUrl}</p>
+              <p>{data.urlCreationAcademicUnit}</p>
             </div>
             <div>
               <h3>Código de centro de costos de la unidad académica</h3>
-              <p>{data.costCenter}</p>
+              <p>{data.costCenterCode}</p>
             </div>
           </section>
           <section className="subContainer">

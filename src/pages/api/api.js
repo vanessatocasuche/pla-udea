@@ -2,16 +2,16 @@
 
 const DATA = [
   {
-    id: 1,
-    code: '08',
-    name: 'Facultad de Ingeniería',
-    decane: 'Carlos Alfonso López Mazariegos',
-    type: 'Facultad',
-    location: 'Campus Central',
+    idAcademicUnit: 1,
+    codeAcademicUnit: '08',
+    nameAcademicUnit: 'Facultad de Ingeniería',
+    deanName: 'Carlos Alfonso López Mazariegos',
+    typeAcademicUnit: 'Facultad',
+    ubicationAcademicUnit: 'Campus Central',
     description:
       'La Facultad de Ingeniería es una de las 13 facultades de la Universidad de San Carlos de Guatemala. Fue fundada en 1917 y es la facultad más antigua de la Universidad de San Carlos de Guatemala. La Facultad de Ingeniería es la facultad más grande de la Universidad de San Carlos de Guatemala, con más de 10,000 estudiantes y 500 profesores. La Facultad de Ingeniería ofrece 12 programas de pregrado, 10 programas de maestría y 2 programas de doctorado. La Facultad de Ingeniería tiene 6 departamentos académicos, 2 centros de investigación y 1 centro de extensión.',
-    creationUrl: 'https://www.ingenieria.usac.edu.gt/historia',
-    costCenter: '23898923829323892',
+    urlCreationAcademicUnit: 'https://www.ingenieria.usac.edu.gt/historia',
+    costCenterCode: '23898923829323892',
     subunits: [
       'Departamento de Ingeniería de Sistemas',
       'Departamento de Ingeniería Mecánica',
@@ -22,15 +22,15 @@ const DATA = [
     ]
   },
   {
-    id: 2,
-    code: '09',
-    name: 'Facultad de Ciencias Económicas',
-    decane: 'Carlos Alfonso López Mazariegos',
-    type: 'Facultad',
-    location: 'Campus Central',
+    idAcademicUnit: 2,
+    codeAcademicUnit: '09',
+    nameAcademicUnit: 'Facultad de Ciencias Económicas',
+    deanName: 'Carlos Alfonso López Mazariegos',
+    typeAcademicUnit: 'Facultad',
+    ubicationAcademicUnit: 'Campus Central',
     description: 'Facultad de Ciencias Económicas',
-    creationUrl: 'https://fce.usac.edu.gt/historia/',
-    costCenter: '343894893498374',
+    urlCreationAcademicUnit: 'https://fce.usac.edu.gt/historia/',
+    costCenterCode: '343894893498374',
     subunits: [
       'Departamento de Contaduría Pública y Auditoría',
       'Departamento de Economía',
@@ -39,16 +39,16 @@ const DATA = [
     ]
   },
   {
-    id: 3,
-    code: '10',
-    name: 'Facultad de Ingeniería',
-    decane: 'Carlos Alfonso López Mazariegos',
-    type: 'Facultad',
-    location: 'Campus Central',
+    idAcademicUnit: 3,
+    codeAcademicUnit: '10',
+    nameAcademicUnit: 'Facultad de Ingeniería',
+    deanName: 'Carlos Alfonso López Mazariegos',
+    typeAcademicUnit: 'Facultad',
+    ubicationAcademicUnit: 'Campus Central',
     description:
       'La Facultad de Ingeniería es una de las 13 facultades de la Universidad de San Carlos de Guatemala. Fue fundada en 1917 y es la facultad más antigua de la Universidad de San Carlos de Guatemala. La Facultad de Ingeniería es la facultad más grande de la Universidad de San Carlos de Guatemala, con más de 10,000 estudiantes y 500 profesores. La Facultad de Ingeniería ofrece 12 programas de pregrado, 10 programas de maestría y 2 programas de doctorado. La Facultad de Ingeniería tiene 6 departamentos académicos, 2 centros de investigación y 1 centro de extensión.',
-    creationUrl: 'https://www.ingenieria.usac.edu.gt/historia',
-    costCenter: '2382938273892',
+    urlCreationAcademicUnit: 'https://www.ingenieria.usac.edu.gt/historia',
+    costCenterCode: '2382938273892',
     subunits: [
       'Departamento de Ingeniería de Sistemas',
       'Departamento de Ingeniería Mecánica',
@@ -59,15 +59,15 @@ const DATA = [
     ]
   },
   {
-    id: 4,
-    code: '11',
-    name: 'Facultad de Ciencias Económicas',
-    decane: 'Carlos Alfonso López Mazariegos',
-    type: 'Facultad',
-    location: 'Campus Central',
+    idAcademicUnit: 4,
+    codeAcademicUnit: '11',
+    nameAcademicUnit: 'Facultad de Ciencias Económicas',
+    deanName: 'Carlos Alfonso López Mazariegos',
+    typeAcademicUnit: 'Facultad',
+    ubicationAcademicUnit: 'Campus Central',
     description: 'Facultad de Ciencias Económicas',
-    creationUrl: 'https://fce.usac.edu.gt/historia/',
-    costCenter: '343892938792838',
+    urlCreationAcademicUnit: 'https://fce.usac.edu.gt/historia/',
+    costCenterCode: '343892938792838',
     subunits: [
       'Departamento de Contaduría Pública y Auditoría',
       'Departamento de Economía',
@@ -80,14 +80,14 @@ const DATA = [
 export default function handler(req, res) {
   if (req.method === 'GET') {
     if (req.query?.code) {
-      res.status(200).json(DATA.filter((item) => item.code === req.query.code))
+      res.status(200).json(DATA.filter((item) => item.codeAcademicUnit === req.query.code))
     } else {
       res.status(200).json(DATA)
     }
   } else if (req.method === 'POST') {
     const data = req.body
     const newUnit = {
-      id: DATA.length + 1,
+      idAcademicUnit: DATA.length + 1,
       ...data
     }
     DATA.push(newUnit)
