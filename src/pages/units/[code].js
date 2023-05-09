@@ -85,7 +85,7 @@ const ViewUnit = () => {
               <p>No hay subunidades académicas registradas</p>
             )}
           </section>
-          <RoundButton fixed color="purple">
+          <RoundButton fixed color="purple" handler={() => router.push(`/edit-unit/${code}`)}>
             <EditIcon color="white" width="2rem" height="2rem" />
           </RoundButton>
         </main>
