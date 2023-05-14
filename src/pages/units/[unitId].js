@@ -9,7 +9,7 @@ const ViewUnit = () => {
   const BASE_API_URL = process.env.BASE_API_URL
 
   const router = useRouter()
-  const { code } = router.query
+  const { unitId } = router.query
   const [data, setData] = useState(undefined)
   const [loading, setLoading] = useState(true)
 
@@ -35,10 +35,10 @@ const ViewUnit = () => {
   }
 
   useEffect(() => {
-    if (code) {
-      getUnit(code)
+    if (unitId) {
+      getUnit(unitId)
     }
-  }, [code])
+  }, [unitId])
 
   return (
     <>
@@ -91,7 +91,7 @@ const ViewUnit = () => {
               <p>No hay subunidades académicas registradas</p>
             )}
           </section>
-          <RoundButton fixed color="purple" handler={() => router.push(`/edit-unit/${code}`)}>
+          <RoundButton fixed color="purple" handler={() => router.push(`/edit-unit/${unitId}`)}>
             <EditIcon color="white" width="2rem" height="2rem" />
           </RoundButton>
         </main>
