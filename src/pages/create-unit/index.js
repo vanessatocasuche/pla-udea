@@ -13,22 +13,17 @@ const UNIT_TYPES = ['Facultad', 'Escuela', 'Institutos', 'Corporación']
 
 export default function CreateUnit() {
   const [type, setType] = useState('')
-  const [subunits, setSubunits] = useState([])
   const router = useRouter()
 
-  function addUnit(event, subunit) {
+  function addUnit(event) {
     event.preventDefault()
-    setSubunits([
-      ...subunits,
-      { name: 'Nueva subunidad', code: subunits.length + 1 }
-    ])
+    router.push('/create-subunit')
   }
 
   function handleSubmit(event) {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.target))
-    formData.subunits = subunits
-    fetch(`${BASE_API_URL}/api`, {
+    fetch(`${BASE_API_URL}/academicUnit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -79,7 +74,7 @@ export default function CreateUnit() {
             />
             <Select
               id="typeAcademicUnit"
-              name="type"
+              name="typeAcademicUnit"
               onChange={setType}
               value={type}
               options={UNIT_TYPES}
@@ -129,16 +124,7 @@ export default function CreateUnit() {
 
           <h2>Subunidades académicas</h2>
           <fieldset className="subContainer">
-            <div className="gridContainer">
-              {subunits.map((subunit) => (
-                <Card
-                  key={`${subunit.code}`}
-                  id={`/units/${subunit.code}`}
-                  content={subunit.name}
-                />
-              ))}
-              <Card handleAddCard={addUnit} />
-            </div>
+            <Card handleAddCard={addUnit} />
           </fieldset>
           <div className="fixedContainer">
             <RoundButton color="green">
