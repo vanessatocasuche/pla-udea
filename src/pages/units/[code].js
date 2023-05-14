@@ -10,27 +10,33 @@ const ViewUnit = () => {
 
   const router = useRouter()
   const { code } = router.query
-  const [data, setData] = useState({})
+  const [data, setData] = useState(undefined)
   const [loading, setLoading] = useState(true)
 
   function getUnit(code) {
-    fetch(`${BASE_API_URL}/api?code=${code}`, {
-      method: 'GET', // Get, post, put, delete
+    fetch(`${BASE_API_URL}/academicUnit/${code}`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json()
+        } else {
+          alert('Error al obtener la unidad académica')
+          setLoading(false)
+        }
+      })
       .then((data) => {
-        setData(data[0])
-        return data
+        setData(data)
+        setLoading(false)
       })
   }
 
   useEffect(() => {
     if (code) {
       getUnit(code)
-      setLoading(false)
     }
   }, [code])
 
