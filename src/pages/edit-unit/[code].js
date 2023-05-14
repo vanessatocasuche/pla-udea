@@ -20,14 +20,14 @@ export default function EditUnit() {
   const [unit, setUnit] = useState({})
 
   const getUnitData = async (code) => {
-    fetch(`${BASE_API_URL}/api?code=${code}`, {
+    fetch(`${BASE_API_URL}/academicUnit/${code}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
       .then((response) => response.json())
-      .then(([data]) => {
+      .then((data) => {
         setUnit(data)
         setLoading(false)
         setType(data.typeAcademicUnit)
