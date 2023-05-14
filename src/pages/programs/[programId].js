@@ -1,7 +1,6 @@
 import { RoundButton } from '@/components/Buttons'
 import Card from '@/components/Card'
-import { SearchIcon } from '@/components/Icons'
-import { ArrowIcon, EditIcon } from '@/components/Icons'
+import { ArrowIcon, EditIcon, SearchIcon } from '@/components/Icons'
 import NavBar from '@/components/NavBar'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -23,7 +22,7 @@ const ViewProgram = () => {
   })
   const [loading, setLoading] = useState(false)
 
-  /*   function getProgram(programId) {
+  function getProgram(programId) {
     fetch(`${BASE_API_URL}/api?code=${programId}`, {
       method: 'GET', // Get, post, put, delete
       headers: {
@@ -42,7 +41,7 @@ const ViewProgram = () => {
       getProgram(programId)
       setLoading(false)
     }
-  }, [programId]) */
+  }, [programId])
 
   return (
     <>
