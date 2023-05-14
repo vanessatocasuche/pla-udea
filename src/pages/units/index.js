@@ -17,7 +17,7 @@ const Units = () => {
 
   useEffect(() => {
     const fetchUnits = async () => {
-      const response = await fetch(`${BASE_API_URL}/api`)
+      const response = await fetch(`${BASE_API_URL}/academicUnit/all`)
       const data = await response.json()
       setUnits(data)
       setBackUpUnits(data)
@@ -87,10 +87,10 @@ const Units = () => {
             </RoundButton>
           </form>
           <div className="gridContainer">
-            {units.map(({ codeAcademicUnit, nameAcademicUnit }) => (
+            {units.map(({ idAcademicUnit, nameAcademicUnit }) => (
               <Card
-                key={`${codeAcademicUnit}`}
-                id={`/units/${codeAcademicUnit}`}
+                key={`${idAcademicUnit}`}
+                id={`/units/${idAcademicUnit}`}
                 content={nameAcademicUnit}
               />
             ))}
