@@ -20,15 +20,18 @@ export default function EditSubunit() {
   const [subunit, setSubunit] = useState({})
 
   const getSubunitData = async (code) => {
-    fetch(`${BASE_API_URL}/api?code=${code}`, {
+    fetch(`${BASE_API_URL}/academicSubUnit/all`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
       .then((response) => response.json())
-      .then(([data]) => {
-        setSubunit(data)
+      .then((data) => {
+        const dataFilter = data.filter(
+          (subunit) => subunit.idAcademicSubUnit === parseInt(subunitId)
+        )
+        setSubunit(dataFilter[0])
         setLoading(false)
         setType(data.typeAcademicUnit)
         console.log(data)
@@ -120,12 +123,12 @@ export default function EditSubunit() {
                 required
               />
               <Input
-                id="deanName"
+                id="headName"
                 placeholder="Nombre del Jefe de la subunidad académica"
                 label="Nombre del Jefe de la subunidad académica"
                 pattern={PATTERNS.name}
                 title={TITLES.name}
-                initialValue={subunit.deanName}
+                initialValue={subunit.headName}
                 required
               />
               <Input
@@ -142,13 +145,14 @@ export default function EditSubunit() {
             <h2>Programas académicos</h2>
             <fieldset className="subContainer">
               <div className="gridContainer">
-                {programs.map((program) => (
-                  <Card
-                    key={`${program}`}
-                    id={`/programs/${program}`}
-                    content={program}
-                  />
-                ))}
+                {programs &&
+                  programs.map((program) => (
+                    <Card
+                      key={`${program}`}
+                      id={`/programs/${program}`}
+                      content={program}
+                    />
+                  ))}
                 <Card handleAddCard={addProgram} />
               </div>
             </fieldset>
