@@ -1,6 +1,6 @@
 import { RoundButton } from '@/components/Buttons'
 import Card from '@/components/Card'
-import { ArrowIcon, EditIcon } from '@/components/Icons'
+import { ArrowIcon, EditIcon, TrashIcon } from '@/components/Icons'
 import NavBar from '@/components/NavBar'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -31,6 +31,22 @@ const ViewUnit = () => {
       .then((data) => {
         setData(data)
         setLoading(false)
+      })
+  }
+
+  const deleteUnit = () => {
+    window.confirm('¿Está seguro que desea eliminar la unidad académica?') &&
+      fetch(`${BASE_API_URL}/academicUnit/${unitId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((response) => {
+        if (response.status === 200) {
+          router.push('/units')
+        } else {
+          alert('Error al eliminar la unidad académica')
+        }
       })
   }
 
@@ -85,9 +101,9 @@ const ViewUnit = () => {
           </section>
           <section className="subContainer">
             <h2>Subunidades Académicas</h2>
-            {data.subunits ? (
+            {data.subUnidadesAcademicas ? (
               <div className="gridContainer">
-                {data.subunits.map(
+                {data.subUnidadesAcademicas.map(
                   ({ nameAcademicSubUnit, idAcademicSubUnit }) => (
                     <Card
                       key={`${nameAcademicSubUnit}${idAcademicSubUnit}`}
@@ -96,18 +112,25 @@ const ViewUnit = () => {
                     />
                   )
                 )}
+                {data.subUnidadesAcademicas.length === 0 && (
+                  <p>No hay subunidades académicas registradas</p>
+                )}
               </div>
             ) : (
               <p>No hay subunidades académicas registradas</p>
             )}
           </section>
-          <RoundButton
-            fixed
-            color="purple"
-            handler={() => router.push(`/units/${unitId}/edit-unit`)}
-          >
-            <EditIcon color="white" width="2rem" height="2rem" />
-          </RoundButton>
+          <div className="fixedContainer">
+            <RoundButton color="red" handler={deleteUnit}>
+              <TrashIcon color="white" width="2rem" height="2rem" />
+            </RoundButton>
+            <RoundButton
+              color="purple"
+              handler={() => router.push(`/units/${unitId}/edit-unit`)}
+            >
+              <EditIcon color="white" width="2rem" height="2rem" />
+            </RoundButton>
+          </div>
         </main>
       ) : (
         <p>No hay datos registrados para la unidad académica solicitada</p>
