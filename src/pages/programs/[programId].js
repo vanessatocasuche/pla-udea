@@ -10,7 +10,7 @@ const ViewProgram = () => {
 
   const router = useRouter()
   const { programId } = router.query
-  const [data, setData] = useState({
+  const [program, setProgram] = useState({
     idAcademicProgram: 1,
     nameAcademicProgram: 'nombre',
     codeAcademicProgram: '43',
@@ -31,7 +31,7 @@ const ViewProgram = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setData(data[0])
+        setProgram(data)
         return data
       })
   }
@@ -48,7 +48,7 @@ const ViewProgram = () => {
       <NavBar />
       {loading ? (
         <p>Loading...</p>
-      ) : data ? (
+      ) : program ? (
         <main className="container">
           <div style={{ display: 'flex', gNp: '1rem' }}>
             <RoundButton color="yellow" handler={() => router.back()}>
@@ -60,28 +60,28 @@ const ViewProgram = () => {
             <div>
               <h3>Nombre del programa</h3>
               <p>
-                {data.nameAcademicProgram} - {data.codeAcademicProgram}
+                {program.nameAcademicProgram} - {program.codeAcademicProgram}
               </p>
             </div>
             <div>
               <h3>Descripcion del programa</h3>
-              <p>{data.description}</p>
+              <p>{program.description}</p>
             </div>
             <div>
               <h3>Nombre del encargado</h3>
-              <p>{data.deanName}</p>
+              <p>{program.deanName}</p>
             </div>
             <div>
               <h3>Tipo de programa</h3>
-              <p>{data.typeAcademicProgram}</p>
+              <p>{program.typeAcademicProgram}</p>
             </div>
             <div>
               <h3>Modalidad</h3>
-              <p>{data.modalityAcademicProgram}</p>
+              <p>{program.modalityAcademicProgram}</p>
             </div>
             <div>
               <h3>Código SNIES</h3>
-              <p>{data.sniesCode}</p>
+              <p>{program.sniesCode}</p>
             </div>
           </section>
           <section
