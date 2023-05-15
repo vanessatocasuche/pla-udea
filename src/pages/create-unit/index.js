@@ -15,11 +15,6 @@ export default function CreateUnit() {
   const [type, setType] = useState('')
   const router = useRouter()
 
-  function addUnit(event) {
-    event.preventDefault()
-    router.push('/create-subunit')
-  }
-
   function handleSubmit(event) {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.target))
@@ -29,13 +24,23 @@ export default function CreateUnit() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(formData)
-    }).then((response) => {
-      if (response.ok) {
-        router.push('/units')
-        return response.json()
-      }
-      alert('Error al crear la unidad académica')
     })
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        }
+        throw new Error('Error al crear la unidad académica')
+      })
+      .then((data) => {
+        if (data && event.nativeEvent.submitter.name === 'addUnit') {
+          router.push(`/units/${data.idAcademicUnit}/create-subunit`)
+        } else {
+          router.push(`/units/${data.idAcademicUnit}`)
+        }
+      })
+      .catch((error) => {
+        alert(error.message)
+      })
   }
 
   function handleCancel(event) {
@@ -124,7 +129,9 @@ export default function CreateUnit() {
 
           <h2>Subunidades académicas</h2>
           <fieldset className="subContainer">
-            <Card handleAddCard={addUnit} />
+            <div className="gridContainer">
+              <Card name="addUnit" handleAddCard={() => {}} />
+            </div>
           </fieldset>
           <div className="fixedContainer">
             <RoundButton color="green">
