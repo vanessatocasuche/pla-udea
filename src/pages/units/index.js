@@ -38,11 +38,12 @@ const Units = () => {
           .toLowerCase()
           .normalize('NFD')
           .replace(/[\u0300-\u036f]/g, '')
-        search
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-        return name.includes(search)
+        return name.includes(
+          search
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+        )
       })
       setUnits(filter)
     } else {
@@ -99,7 +100,7 @@ const Units = () => {
             </RoundButton>
           </div>
           {units.length === 0 && (
-            <p> No hay unidades que coincidan con la búsqueda </p>
+            <p> No existen unidades que coincidan con la búsqueda </p>
           )}
         </main>
       )}
