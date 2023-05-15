@@ -13,34 +13,34 @@ const UNIT_TYPES = ['Facultad', 'Escuela', 'Institutos', 'Corporación']
 
 export default function CreateUnit() {
   const [type, setType] = useState('')
-  const [subunits, setSubunits] = useState([])
   const router = useRouter()
-
-  function addUnit(event, subunit) {
-    event.preventDefault()
-    setSubunits([
-      ...subunits,
-      { name: 'Nueva subunidad', code: subunits.length + 1 }
-    ])
-  }
 
   function handleSubmit(event) {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.target))
-    formData.subunits = subunits
-    fetch(`${BASE_API_URL}/api`, {
+    fetch(`${BASE_API_URL}/academicUnit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(formData)
-    }).then((response) => {
-      if (response.ok) {
-        router.push('/units')
-        return response.json()
-      }
-      alert('Error al crear la unidad académica')
     })
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        }
+        throw new Error('Error al crear la unidad académica')
+      })
+      .then((data) => {
+        if (data && event.nativeEvent.submitter.name === 'addUnit') {
+          router.push(`/units/${data.idAcademicUnit}/create-subunit`)
+        } else {
+          router.push(`/units/${data.idAcademicUnit}`)
+        }
+      })
+      .catch((error) => {
+        alert(error.message)
+      })
   }
 
   function handleCancel(event) {
@@ -79,7 +79,7 @@ export default function CreateUnit() {
             />
             <Select
               id="typeAcademicUnit"
-              name="type"
+              name="typeAcademicUnit"
               onChange={setType}
               value={type}
               options={UNIT_TYPES}
@@ -130,14 +130,7 @@ export default function CreateUnit() {
           <h2>Subunidades académicas</h2>
           <fieldset className="subContainer">
             <div className="gridContainer">
-              {subunits.map((subunit) => (
-                <Card
-                  key={`${subunit.code}`}
-                  id={`/units/${subunit.code}`}
-                  content={subunit.name}
-                />
-              ))}
-              <Card handleAddCard={addUnit} />
+              <Card name="addUnit" handleAddCard={() => {}} />
             </div>
           </fieldset>
           <div className="fixedContainer">

@@ -13,7 +13,7 @@ const SUBUNIT_TYPES = ['Departamento', 'Escuela', 'Instituto']
 
 export default function EditSubunit() {
   const router = useRouter()
-  const { subunitCode } = router.query
+  const { subunitId } = router.query
   const [type, setType] = useState('')
   const [programs, setPrograms] = useState([])
   const [loading, setLoading] = useState(true)
@@ -37,10 +37,10 @@ export default function EditSubunit() {
   }
 
   useEffect(() => {
-    if (subunitCode) {
-      getSubunitData(subunitCode)
+    if (subunitId) {
+      getSubunitData(subunitId)
     }
-  }, [subunitCode])
+  }, [subunitId])
 
   function addProgram(event, program) {
     event.preventDefault()
@@ -62,7 +62,7 @@ export default function EditSubunit() {
       body: JSON.stringify(formData)
     }).then((response) => {
       if (response.ok) {
-        router.push(`/subunits/${subunitCode}`)
+        router.push(`/subunits/${subunitId}`)
         return response.json()
       }
       alert('Error al editar la subunidad académica')
@@ -72,7 +72,7 @@ export default function EditSubunit() {
   function handleCancel(event) {
     event.preventDefault()
     window.confirm('¿Está seguro que desea cancelar?') &&
-      router.push(`/subunits/${subunitCode}`)
+      router.push(`/subunits/${subunitId}`)
   }
 
   return (
@@ -82,7 +82,7 @@ export default function EditSubunit() {
         <div style={{ display: 'flex', gap: '1rem' }}>
           <RoundButton
             color="yellow"
-            handler={() => router.push(`/subunits/${subunitCode}`)}
+            handler={() => router.push(`/subunits/${subunitId}`)}
           >
             <ArrowIcon color="white" height="2rem" width="2rem" />
           </RoundButton>
@@ -95,23 +95,23 @@ export default function EditSubunit() {
             <h2>Información general</h2>
             <fieldset className="subContainer">
               <Input
-                id="nameAcademicSubunit"
+                id="nameAcademicSubUnit"
                 placeholder="Nombre de la subunidad académica"
                 label="Nombre de la subunidad académica"
                 pattern={PATTERNS.name}
                 title={TITLES.name}
-                initialValue={subunit.nameAcademicSubunit}
+                initialValue={subunit.nameAcademicSubUnit}
                 required
               />
               <Input
-                id="codeAcademicSubunit"
+                id="codeAcademicSubUnit"
                 label="Código de la subunidad académica"
-                initialValue={subunit.codeAcademicSubunit}
+                initialValue={subunit.codeAcademicSubUnit}
                 disabled
                 required
               />
               <Select
-                id="typeAcademicSubunit"
+                id="typeAcademicSubUnit"
                 name="type"
                 onChange={setType}
                 value={type}

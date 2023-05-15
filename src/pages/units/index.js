@@ -17,7 +17,7 @@ const Units = () => {
 
   useEffect(() => {
     const fetchUnits = async () => {
-      const response = await fetch(`${BASE_API_URL}/api`)
+      const response = await fetch(`${BASE_API_URL}/academicUnit/all`)
       const data = await response.json()
       setUnits(data)
       setBackUpUnits(data)
@@ -38,11 +38,12 @@ const Units = () => {
           .toLowerCase()
           .normalize('NFD')
           .replace(/[\u0300-\u036f]/g, '')
-        search
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-        return name.includes(search)
+        return name.includes(
+          search
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+        )
       })
       setUnits(filter)
     } else {
@@ -87,10 +88,10 @@ const Units = () => {
             </RoundButton>
           </form>
           <div className="gridContainer">
-            {units.map(({ codeAcademicUnit, nameAcademicUnit }) => (
+            {units.map(({ idAcademicUnit, nameAcademicUnit }) => (
               <Card
-                key={`${codeAcademicUnit}`}
-                id={`/units/${codeAcademicUnit}`}
+                key={`${idAcademicUnit}`}
+                id={`/units/${idAcademicUnit}`}
                 content={nameAcademicUnit}
               />
             ))}
@@ -99,7 +100,7 @@ const Units = () => {
             </RoundButton>
           </div>
           {units.length === 0 && (
-            <p> No hay unidades que coincidan con la búsqueda </p>
+            <p> No existen unidades que coincidan con la búsqueda </p>
           )}
         </main>
       )}

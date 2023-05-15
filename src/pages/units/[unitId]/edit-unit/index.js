@@ -13,48 +13,39 @@ const UNIT_TYPES = ['Facultad', 'Escuela', 'Institutos', 'Corporación']
 
 export default function EditUnit() {
   const router = useRouter()
-  const { code } = router.query
+  const { unitId } = router.query
   const [type, setType] = useState('')
   const [subunits, setSubunits] = useState([])
   const [loading, setLoading] = useState(true)
   const [unit, setUnit] = useState({})
 
-  const getUnitData = async (code) => {
-    fetch(`${BASE_API_URL}/api?code=${code}`, {
+  const getUnitData = async (id) => {
+    fetch(`${BASE_API_URL}/academicUnit/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
       .then((response) => response.json())
-      .then(([data]) => {
+      .then((data) => {
         setUnit(data)
         setLoading(false)
         setType(data.typeAcademicUnit)
-        console.log(data)
         setSubunits(data.subunits)
       })
   }
 
   useEffect(() => {
-    if (code) {
-      getUnitData(code)
+    if (unitId) {
+      getUnitData(unitId)
     }
-  }, [code])
-
-  function addUnit(event, subunit) {
-    event.preventDefault()
-    setSubunits([
-      ...subunits,
-      { name: 'Nueva subunidad', code: subunits.length + 1 }
-    ])
-  }
+  }, [unitId])
 
   function handleSubmit(event) {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.target))
     formData.subunits = subunits
-    fetch(`${BASE_API_URL}/api`, {
+    fetch(`${BASE_API_URL}/academicUnit/${unitId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -62,7 +53,7 @@ export default function EditUnit() {
       body: JSON.stringify(formData)
     }).then((response) => {
       if (response.ok) {
-        router.push(`/units/${code}`)
+        router.push(`/units/${unitId}`)
         return response.json()
       }
       alert('Error al editar la unidad académica')
@@ -72,7 +63,7 @@ export default function EditUnit() {
   function handleCancel(event) {
     event.preventDefault()
     window.confirm('¿Está seguro que desea cancelar?') &&
-      router.push(`/units/${code}`)
+      router.push(`/units/${unitId}`)
   }
 
   return (
@@ -82,7 +73,7 @@ export default function EditUnit() {
         <div style={{ display: 'flex', gap: '1rem' }}>
           <RoundButton
             color="yellow"
-            handler={() => router.push(`/units/${code}`)}
+            handler={() => router.push(`/units/${unitId}`)}
           >
             <ArrowIcon color="white" height="2rem" width="2rem" />
           </RoundButton>
@@ -165,16 +156,36 @@ export default function EditUnit() {
 
             <h2>Subunidades académicas</h2>
             <fieldset className="subContainer">
-              <div className="gridContainer">
-                {subunits.map((subunit) => (
+              {subunits ? (
+                <div className="gridContainer">
+                  {subunits.map(
+                    ({ nameAcademicSubUnit, idAcademicSubUnit }) => (
+                      <Card
+                        key={`${nameAcademicSubUnit}${idAcademicSubUnit}`}
+                        content={nameAcademicSubUnit}
+                        id={`/subunits/${idAcademicSubUnit}`}
+                      />
+                    )
+                  )}
                   <Card
-                    key={`${subunit}`}
-                    id={`/units/${subunit}`}
-                    content={subunit}
+                    name="addUnit"
+                    handleAddCard={(e) => {
+                      e.preventDefault()
+                      router.push(`/units/${unitId}/create-subunit`)
+                    }}
                   />
-                ))}
-                <Card handleAddCard={addUnit} />
-              </div>
+                </div>
+              ) : (
+                <div className="gridContainer">
+                  <Card
+                    name="addUnit"
+                    handleAddCard={(e) => {
+                      e.preventDefault()
+                      router.push(`/units/${unitId}/create-subunit`)
+                    }}
+                  />
+                </div>
+              )}
             </fieldset>
             <div className="fixedContainer">
               <RoundButton color="green">

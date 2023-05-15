@@ -9,30 +9,31 @@ const ViewSubunit = () => {
   const BASE_API_URL = process.env.BASE_API_URL
 
   const router = useRouter()
-  const { code } = router.query
+  const { subunitId } = router.query
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(true)
 
-  function getSubunit(code) {
-    fetch(`${BASE_API_URL}/api?code=${code}`, {
-      method: 'GET', // Get, post, put, delete
+  function getSubunit(id) {
+    fetch(`${BASE_API_URL}/academicSubUnit/all`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
       .then((response) => response.json())
       .then((data) => {
-        setData(data[0])
+        const dataFilter = data.filter((subunit) => subunit.idAcademicSubUnit === parseInt(id))
+        setData(dataFilter[0])
         return data
       })
   }
 
   useEffect(() => {
-    if (code) {
-      getSubunit(code)
+    if (subunitId) {
+      getSubunit(subunitId)
       setLoading(false)
     }
-  }, [code])
+  }, [subunitId])
 
   return (
     <>
@@ -45,7 +46,7 @@ const ViewSubunit = () => {
             <RoundButton color="yellow" handler={() => router.back()}>
               <ArrowIcon color="white" height="2rem" width="2rem" />
             </RoundButton>
-            <h1>{data.nameAcademicSubunit}</h1>
+            <h1>{data.nameAcademicSubUnit}</h1>
           </div>
           <section className="subContainer">
             <div>
@@ -54,15 +55,15 @@ const ViewSubunit = () => {
             </div>
             <div>
               <h3>Tipo de Subunidad académica</h3>
-              <p>{data.typeAcademicSubunit}</p>
+              <p>{data.typeAcademicSubUnit}</p>
             </div>
             <div>
-              <h3>Juefe de la Subunidad académica</h3>
-              <p>{data.deanName}</p>
+              <h3>Jefe de la Subunidad académica</h3>
+              <p>{data.headName}</p>
             </div>
             <div>
               <h3>Código de la Subunidad académica</h3>
-              <p>{data.codeAcademicSubunit}</p>
+              <p>{data.codeAcademicSubUnit}</p>
             </div>
           </section>
           <section className="subContainer">
@@ -80,7 +81,7 @@ const ViewSubunit = () => {
           <RoundButton
             fixed
             color="purple"
-            handler={() => router.push(`/edit-subunit/${code}`)}
+            handler={() => router.push(`/subunits/${subunitId}/edit-subunit`)}
           >
             <EditIcon color="white" width="2rem" height="2rem" />
           </RoundButton>

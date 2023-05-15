@@ -9,30 +9,36 @@ const ViewUnit = () => {
   const BASE_API_URL = process.env.BASE_API_URL
 
   const router = useRouter()
-  const { code } = router.query
-  const [data, setData] = useState({})
+  const { unitId } = router.query
+  const [data, setData] = useState(undefined)
   const [loading, setLoading] = useState(true)
 
-  function getUnit(code) {
-    fetch(`${BASE_API_URL}/api?code=${code}`, {
-      method: 'GET', // Get, post, put, delete
+  function getUnit(id) {
+    fetch(`${BASE_API_URL}/academicUnit/${id}`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json()
+        } else {
+          alert('Error al obtener la unidad académica')
+          setLoading(false)
+        }
+      })
       .then((data) => {
-        setData(data[0])
-        return data
+        setData(data)
+        setLoading(false)
       })
   }
 
   useEffect(() => {
-    if (code) {
-      getUnit(code)
-      setLoading(false)
+    if (unitId) {
+      getUnit(unitId)
     }
-  }, [code])
+  }, [unitId])
 
   return (
     <>
@@ -42,7 +48,7 @@ const ViewUnit = () => {
       ) : data ? (
         <main className="container">
           <div style={{ display: 'flex', gap: '1rem' }}>
-            <RoundButton color="yellow" handler={() => router.back()}>
+            <RoundButton color="yellow" handler={() => router.push('/units')}>
               <ArrowIcon color="white" height="2rem" width="2rem" />
             </RoundButton>
             <h1>{data.nameAcademicUnit}</h1>
@@ -66,7 +72,11 @@ const ViewUnit = () => {
             </div>
             <div>
               <h3>Enlace de acuerdo de creación de la unidad académica</h3>
-              <p>{data.urlCreationAcademicUnit}</p>
+              <p>
+                {data.urlCreationAcademicUnit
+                  ? data.urlCreationAcademicUnit
+                  : '- Información no sumistrada - '}
+              </p>
             </div>
             <div>
               <h3>Código de centro de costos de la unidad académica</h3>
@@ -77,15 +87,25 @@ const ViewUnit = () => {
             <h2>Subunidades Académicas</h2>
             {data.subunits ? (
               <div className="gridContainer">
-                {data.subunits.map((subunit) => (
-                  <Card key={`${subunit}`} content={subunit} />
-                ))}
+                {data.subunits.map(
+                  ({ nameAcademicSubUnit, idAcademicSubUnit }) => (
+                    <Card
+                      key={`${nameAcademicSubUnit}${idAcademicSubUnit}`}
+                      content={nameAcademicSubUnit}
+                      id={`/subunits/${idAcademicSubUnit}`}
+                    />
+                  )
+                )}
               </div>
             ) : (
               <p>No hay subunidades académicas registradas</p>
             )}
           </section>
-          <RoundButton fixed color="purple" handler={() => router.push(`/edit-unit/${code}`)}>
+          <RoundButton
+            fixed
+            color="purple"
+            handler={() => router.push(`/units/${unitId}/edit-unit`)}
+          >
             <EditIcon color="white" width="2rem" height="2rem" />
           </RoundButton>
         </main>
