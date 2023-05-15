@@ -9,16 +9,18 @@ import { useRouter } from 'next/router'
 import { PATTERNS, TITLES } from '@/constants/forms'
 
 const BASE_API_URL = process.env.BASE_API_URL
-const UNIT_TYPES = ['Facultad', 'Escuela', 'Institutos', 'Corporación']
+const SUBUNIT_TYPES = ['Departamento', 'Escuela', 'Institutos']
 
-export default function CreateUnit() {
-  const [type, setType] = useState('')
+export default function CreateSubunit() {
   const router = useRouter()
+  const [type, setType] = useState('')
+  const { unitId } = router.query
 
   function handleSubmit(event) {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.target))
-    fetch(`${BASE_API_URL}/academicUnit`, {
+    formData.unidadAcademica = { idAcademicUnit: parseInt(unitId) }
+    fetch(`${BASE_API_URL}/academicSubUnit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -29,13 +31,13 @@ export default function CreateUnit() {
         if (response.ok) {
           return response.json()
         }
-        throw new Error('Error al crear la unidad académica')
+        throw new Error('Error al crear la subunidad académica')
       })
       .then((data) => {
-        if (data && event.nativeEvent.submitter.name === 'addUnit') {
-          router.push(`/units/${data.idAcademicUnit}/create-subunit`)
+        if (data && event.nativeEvent.submitter.name === 'addProgram') {
+          router.push(`/subunits/${data.idAcademicSubUnit}/create-program`)
         } else {
-          router.push(`/units/${data.idAcademicUnit}`)
+          router.push(`/subunits/${data.idAcademicSubUnit}`)
         }
       })
       .catch((error) => {
@@ -45,7 +47,8 @@ export default function CreateUnit() {
 
   function handleCancel(event) {
     event.preventDefault()
-    window.confirm('¿Está seguro que desea cancelar?') && router.push('/units')
+    window.confirm('¿Está seguro que desea cancelar?') &&
+      router.push(`/units/${unitId}`)
   }
 
   return (
@@ -53,44 +56,47 @@ export default function CreateUnit() {
       <NavBar />
       <main className="container">
         <div style={{ display: 'flex', gap: '1rem' }}>
-          <RoundButton color="yellow" handler={() => router.push('/units')}>
+          <RoundButton
+            color="yellow"
+            handler={() => router.push(`/units/${unitId}`)}
+          >
             <ArrowIcon color="white" height="2rem" width="2rem" />
           </RoundButton>
-          <h1>Crear Unidad Académica</h1>
+          <h1>Crear Subunidad Académica</h1>
         </div>
         <form className="container" onSubmit={handleSubmit}>
           <h2>Información general</h2>
           <fieldset className="subContainer">
             <Input
-              id="nameAcademicUnit"
-              placeholder="Nombre de la unidad académica"
-              label="Nombre de la unidad académica"
+              id="nameAcademicSubUnit"
+              placeholder="Nombre de la subunidad académica"
+              label="Nombre de la subunidad académica"
               pattern={PATTERNS.name}
               title={TITLES.name}
               required
             />
             <Input
-              id="codeAcademicUnit"
-              placeholder="Código de la unidad académica"
-              label="Código de la unidad académica"
+              id="codeAcademicSubUnit"
+              placeholder="Código de la subunidad académica"
+              label="Código de la subunidad académica"
               pattern={PATTERNS.code}
               title={TITLES.code}
               required
             />
             <Select
-              id="typeAcademicUnit"
-              name="typeAcademicUnit"
+              id="typeAcademicSubUnit"
+              name="typeAcademicSubUnit"
               onChange={setType}
               value={type}
-              options={UNIT_TYPES}
-              placeholder="Tipo de unidad académica"
-              label="Tipo de unidad académica"
+              options={SUBUNIT_TYPES}
+              placeholder="Tipo de subunidad académica"
+              label="Tipo de subunidad académica"
               required
             />
             <Input
-              id="deanName"
-              placeholder="Nombre del decano"
-              label="Nombre del decano"
+              id="headName"
+              placeholder="Nombre del jefe"
+              label="Nombre del jefe"
               pattern={PATTERNS.name}
               title={TITLES.name}
               required
@@ -103,34 +109,11 @@ export default function CreateUnit() {
               title={TITLES.description}
               required
             />
-            <Input
-              id="ubicationAcademicUnit"
-              placeholder="Ubicación de la unidad académica"
-              label="Ubicación de la unidad académica"
-              pattern={PATTERNS.address}
-              title={TITLES.address}
-              required
-            />
-            <Input
-              id="urlCreationAcademicUnit"
-              placeholder="Enlace de acuerdo de creación"
-              label="Enlace de acuerdo de creación"
-              type="url"
-            />
-            <Input
-              id="costCenterCode"
-              placeholder="Código de centro de costos"
-              label="Código de centro de costos"
-              pattern={PATTERNS.centerCode}
-              title={TITLES.centerCode}
-              required
-            />
           </fieldset>
-
-          <h2>Subunidades académicas</h2>
+          <h2>Programas Académicos</h2>
           <fieldset className="subContainer">
             <div className="gridContainer">
-              <Card name="addUnit" handleAddCard={() => {}} />
+              <Card name="addProgram" handleAddCard={() => {}} />
             </div>
           </fieldset>
           <div className="fixedContainer">

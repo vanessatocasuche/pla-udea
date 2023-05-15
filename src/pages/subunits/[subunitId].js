@@ -5,34 +5,35 @@ import NavBar from '@/components/NavBar'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-const ViewUnit = () => {
+const ViewSubunit = () => {
   const BASE_API_URL = process.env.BASE_API_URL
 
   const router = useRouter()
-  const { code } = router.query
+  const { subunitId } = router.query
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(true)
 
-  function getUnit(code) {
-    fetch(`${BASE_API_URL}/api?code=${code}`, {
-      method: 'GET', // Get, post, put, delete
+  function getSubunit(id) {
+    fetch(`${BASE_API_URL}/academicSubUnit/all`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
       .then((response) => response.json())
       .then((data) => {
-        setData(data[0])
+        const dataFilter = data.filter((subunit) => subunit.idAcademicSubUnit === parseInt(id))
+        setData(dataFilter[0])
         return data
       })
   }
 
   useEffect(() => {
-    if (code) {
-      getUnit(code)
+    if (subunitId) {
+      getSubunit(subunitId)
       setLoading(false)
     }
-  }, [code])
+  }, [subunitId])
 
   return (
     <>
@@ -45,55 +46,51 @@ const ViewUnit = () => {
             <RoundButton color="yellow" handler={() => router.back()}>
               <ArrowIcon color="white" height="2rem" width="2rem" />
             </RoundButton>
-            <h1>{data.nameAcademicUnit}</h1>
+            <h1>{data.nameAcademicSubUnit}</h1>
           </div>
           <section className="subContainer">
             <div>
-              <h3>Descripción de la unidad académica</h3>
+              <h3>Descripción de la Subunidad académica</h3>
               <p>{data.description}</p>
             </div>
             <div>
-              <h3>Tipo de unidad académica</h3>
-              <p>{data.typeAcademicUnit}</p>
+              <h3>Tipo de Subunidad académica</h3>
+              <p>{data.typeAcademicSubUnit}</p>
             </div>
             <div>
-              <h3>Decano</h3>
-              <p>{data.deanName}</p>
+              <h3>Jefe de la Subunidad académica</h3>
+              <p>{data.headName}</p>
             </div>
             <div>
-              <h3>Código de la unidad académica</h3>
-              <p>{data.codeAcademicUnit}</p>
-            </div>
-            <div>
-              <h3>Enlace de acuerdo de creación de la unidad académica</h3>
-              <p>{data.urlCreationAcademicUnit}</p>
-            </div>
-            <div>
-              <h3>Código de centro de costos de la unidad académica</h3>
-              <p>{data.costCenterCode}</p>
+              <h3>Código de la Subunidad académica</h3>
+              <p>{data.codeAcademicSubUnit}</p>
             </div>
           </section>
           <section className="subContainer">
-            <h2>Subunidades Académicas</h2>
-            {data.subunits ? (
+            <h2>Programas Académicos</h2>
+            {data.programs ? (
               <div className="gridContainer">
-                {data.subunits.map((subunit) => (
-                  <Card key={`${subunit}`} content={subunit} />
+                {data.programs.map((program) => (
+                  <Card key={`${program}`} content={program} />
                 ))}
               </div>
             ) : (
-              <p>No hay subunidades académicas registradas</p>
+              <p>No hay programas académicos registrados</p>
             )}
           </section>
-          <RoundButton fixed color="purple">
+          <RoundButton
+            fixed
+            color="purple"
+            handler={() => router.push(`/subunits/${subunitId}/edit-subunit`)}
+          >
             <EditIcon color="white" width="2rem" height="2rem" />
           </RoundButton>
         </main>
       ) : (
-        <p>No hay datos registrados para la unidad académica solicitada</p>
+        <p>No hay datos registrados para el programa académico solicitado</p>
       )}
     </>
   )
 }
 
-export default ViewUnit
+export default ViewSubunit
