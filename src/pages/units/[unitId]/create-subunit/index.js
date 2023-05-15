@@ -9,43 +9,46 @@ import { useRouter } from 'next/router'
 import { PATTERNS, TITLES } from '@/constants/forms'
 
 const BASE_API_URL = process.env.BASE_API_URL
-const UNIT_TYPES = ['Facultad', 'Escuela', 'Institutos', 'Corporación']
+const SUBUNIT_TYPES = ['Departamento', 'Escuela', 'Institutos']
 
 export default function CreateSubunit() {
-  const [type, setType] = useState('')
-  const [subunits, setSubunits] = useState([])
   const router = useRouter()
-
-  function addUnit(event, subunit) {
-    event.preventDefault()
-    setSubunits([
-      ...subunits,
-      { name: 'Nueva subsubunidad', code: subunits.length + 1 }
-    ])
-  }
+  const [type, setType] = useState('')
+  const { unitId } = router.query
 
   function handleSubmit(event) {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.target))
-    formData.subunits = subunits
-    fetch(`${BASE_API_URL}/api`, {
+    formData.unidadAcademica = { idAcademicUnit: parseInt(unitId) }
+    fetch(`${BASE_API_URL}/academicSubUnit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(formData)
-    }).then((response) => {
-      if (response.ok) {
-        router.push('/units')
-        return response.json()
-      }
-      alert('Error al crear la subunidad académica')
     })
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        }
+        throw new Error('Error al crear la subunidad académica')
+      })
+      .then((data) => {
+        if (data && event.nativeEvent.submitter.name === 'addProgram') {
+          router.push(`/subunits/${data.idAcademicSubUnit}/create-program`)
+        } else {
+          router.push(`/subunits/${data.idAcademicSubUnit}`)
+        }
+      })
+      .catch((error) => {
+        alert(error.message)
+      })
   }
 
   function handleCancel(event) {
     event.preventDefault()
-    window.confirm('¿Está seguro que desea cancelar?') && router.push('/units')
+    window.confirm('¿Está seguro que desea cancelar?') &&
+      router.push(`/units/${unitId}`)
   }
 
   return (
@@ -53,7 +56,10 @@ export default function CreateSubunit() {
       <NavBar />
       <main className="container">
         <div style={{ display: 'flex', gap: '1rem' }}>
-          <RoundButton color="yellow" handler={() => router.push('/units')}>
+          <RoundButton
+            color="yellow"
+            handler={() => router.push(`/units/${unitId}`)}
+          >
             <ArrowIcon color="white" height="2rem" width="2rem" />
           </RoundButton>
           <h1>Crear Subunidad Académica</h1>
@@ -62,7 +68,7 @@ export default function CreateSubunit() {
           <h2>Información general</h2>
           <fieldset className="subContainer">
             <Input
-              id="nameAcademicUnit"
+              id="nameAcademicSubUnit"
               placeholder="Nombre de la subunidad académica"
               label="Nombre de la subunidad académica"
               pattern={PATTERNS.name}
@@ -70,7 +76,7 @@ export default function CreateSubunit() {
               required
             />
             <Input
-              id="codeAcademicUnit"
+              id="codeAcademicSubUnit"
               placeholder="Código de la subunidad académica"
               label="Código de la subunidad académica"
               pattern={PATTERNS.code}
@@ -78,17 +84,17 @@ export default function CreateSubunit() {
               required
             />
             <Select
-              id="typeAcademicUnit"
-              name="type"
+              id="typeAcademicSubUnit"
+              name="typeAcademicSubUnit"
               onChange={setType}
               value={type}
-              options={UNIT_TYPES}
+              options={SUBUNIT_TYPES}
               placeholder="Tipo de subunidad académica"
               label="Tipo de subunidad académica"
               required
             />
             <Input
-              id="deanName"
+              id="headName"
               placeholder="Nombre del jefe"
               label="Nombre del jefe"
               pattern={PATTERNS.name}
@@ -104,18 +110,10 @@ export default function CreateSubunit() {
               required
             />
           </fieldset>
-
           <h2>Programas Académicos</h2>
           <fieldset className="subContainer">
             <div className="gridContainer">
-              {subunits.map((subunit) => (
-                <Card
-                  key={`${subunit.code}`}
-                  id={`/units/${subunit.code}`}
-                  content={subunit.name}
-                />
-              ))}
-              <Card handleAddCard={addUnit} />
+              <Card name="addProgram" handleAddCard={() => {}} />
             </div>
           </fieldset>
           <div className="fixedContainer">
