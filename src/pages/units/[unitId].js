@@ -101,9 +101,9 @@ const ViewUnit = () => {
           </section>
           <section className="subContainer">
             <h2>Subunidades Académicas</h2>
-            {data.subUnidadesAcademicas ? (
+            {data.academicSubUnits ? (
               <div className="gridContainer">
-                {data.subUnidadesAcademicas.map(
+                {data.academicSubUnits.map(
                   ({ nameAcademicSubUnit, idAcademicSubUnit }) => (
                     <Card
                       key={`${nameAcademicSubUnit}${idAcademicSubUnit}`}
@@ -112,7 +112,7 @@ const ViewUnit = () => {
                     />
                   )
                 )}
-                {data.subUnidadesAcademicas.length === 0 && (
+                {data.academicSubUnits.length === 0 && (
                   <p>No hay subunidades académicas registradas</p>
                 )}
               </div>
