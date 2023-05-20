@@ -31,7 +31,7 @@ export default function EditUnit() {
         setUnit(data)
         setLoading(false)
         setType(data.typeAcademicUnit)
-        setSubunits(data.subUnidadesAcademicas)
+        setSubunits(data.academicSubUnits)
       })
   }
 
