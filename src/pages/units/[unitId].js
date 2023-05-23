@@ -1,6 +1,7 @@
 import { RoundButton } from '@/components/Buttons'
 import Card from '@/components/Card'
 import { ArrowIcon, EditIcon, TrashIcon } from '@/components/Icons'
+import Loader from '@/components/Loader'
 import NavBar from '@/components/NavBar'
 import { ALERT_CFG } from '@/constants/alerts'
 import { useRouter } from 'next/router'
@@ -66,7 +67,7 @@ const ViewUnit = () => {
     <>
       <NavBar />
       {loading ? (
-        <p>Loading...</p>
+        <Loader />
       ) : data ? (
         <main className="container">
           <div style={{ display: 'flex', gap: '1rem' }}>

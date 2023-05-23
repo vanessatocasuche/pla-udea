@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import { PATTERNS, TITLES } from '@/constants/forms'
 import Swal from 'sweetalert2'
 import { ALERT_CFG } from '@/constants/alerts'
+import Loader from '@/components/Loader'
 
 const BASE_API_URL = process.env.BASE_API_URL
 const UNIT_TYPES = ['Facultad', 'Escuela', 'Institutos', 'Corporación']
@@ -88,7 +89,7 @@ export default function EditUnit() {
           <h1>Editar Unidad Académica</h1>
         </div>
         {loading ? (
-          <p>Loading...</p>
+          <Loader />
         ) : (
           <form className="container" onSubmit={handleSubmit}>
             <h2>Información general</h2>

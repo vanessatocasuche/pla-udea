@@ -1,6 +1,7 @@
 import { RoundButton } from '@/components/Buttons'
 import Card from '@/components/Card'
 import { ArrowIcon, EditIcon } from '@/components/Icons'
+import Loader from '@/components/Loader'
 import NavBar from '@/components/NavBar'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -41,7 +42,7 @@ const ViewSubunit = () => {
     <>
       <NavBar />
       {loading ? (
-        <p>Loading...</p>
+        <Loader />
       ) : data ? (
         <main className="container">
           <div style={{ display: 'flex', gap: '1rem' }}>
