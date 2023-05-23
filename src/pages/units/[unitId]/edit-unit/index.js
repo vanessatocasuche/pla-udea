@@ -7,6 +7,8 @@ import { RoundButton } from '@/components/Buttons'
 import NavBar from '@/components/NavBar'
 import { useRouter } from 'next/router'
 import { PATTERNS, TITLES } from '@/constants/forms'
+import Swal from 'sweetalert2'
+import { ALERT_CFG } from '@/constants/alerts'
 
 const BASE_API_URL = process.env.BASE_API_URL
 const UNIT_TYPES = ['Facultad', 'Escuela', 'Institutos', 'Corporación']
@@ -51,19 +53,28 @@ export default function EditUnit() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(formData)
-    }).then((response) => {
-      if (response.ok) {
-        router.push(`/units/${unitId}`)
-        return response.json()
-      }
-      alert('Error al editar la unidad académica')
     })
+      .then((response) => {
+        if (response.ok) {
+          Swal.fire(ALERT_CFG.success).then(() => {
+            router.push(`/units/${unitId}`)
+          })
+          return response.json()
+        }
+        throw new Error('Error al editar la unidad académica')
+      })
+      .catch(() => {
+        Swal.fire(ALERT_CFG.error)
+      })
   }
 
   function handleCancel(event) {
     event.preventDefault()
-    window.confirm('¿Está seguro que desea cancelar?') &&
-      router.push(`/units/${unitId}`)
+    Swal.fire(ALERT_CFG.cancel).then((result) => {
+      if (result.isConfirmed) {
+        router.push(`/units/${unitId}`)
+      }
+    })
   }
 
   return (
@@ -71,10 +82,7 @@ export default function EditUnit() {
       <NavBar />
       <main className="container">
         <div style={{ display: 'flex', gap: '1rem' }}>
-          <RoundButton
-            color="yellow"
-            handler={() => router.push(`/units/${unitId}`)}
-          >
+          <RoundButton color="yellow" handler={handleCancel}>
             <ArrowIcon color="white" height="2rem" width="2rem" />
           </RoundButton>
           <h1>Editar Unidad Académica</h1>
