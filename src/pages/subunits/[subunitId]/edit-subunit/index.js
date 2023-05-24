@@ -7,6 +7,9 @@ import { RoundButton } from '@/components/Buttons'
 import NavBar from '@/components/NavBar'
 import { useRouter } from 'next/router'
 import { PATTERNS, TITLES } from '@/constants/forms'
+import Swal from 'sweetalert2'
+import { ALERT_CFG } from '@/constants/alerts'
+import Loader from '@/components/Loader'
 
 const BASE_API_URL = process.env.BASE_API_URL
 const SUBUNIT_TYPES = ['Departamento', 'Escuela', 'Instituto']
@@ -45,14 +48,6 @@ export default function EditSubunit() {
     }
   }, [subunitId])
 
-  function addProgram(event, program) {
-    event.preventDefault()
-    setPrograms([
-      ...programs,
-      { name: 'Nueva subunidad', code: programs.length + 1 }
-    ])
-  }
-
   function handleSubmit(event) {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.target))
@@ -63,19 +58,28 @@ export default function EditSubunit() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(formData)
-    }).then((response) => {
-      if (response.ok) {
-        router.push(`/subunits/${subunitId}`)
-        return response.json()
-      }
-      alert('Error al editar la subunidad académica')
     })
+      .then((response) => {
+        if (response.ok) {
+          Swal.fire(ALERT_CFG.success).then(() => {
+            router.push(`/subunits/${subunitId}`)
+          })
+          return response.json()
+        }
+        throw new Error('Error al editar la subunidad académica')
+      })
+      .catch(() => {
+        Swal.fire(ALERT_CFG.error)
+      })
   }
 
   function handleCancel(event) {
     event.preventDefault()
-    window.confirm('¿Está seguro que desea cancelar?') &&
-      router.push(`/subunits/${subunitId}`)
+    Swal.fire(ALERT_CFG.cancel).then((result) => {
+      if (result.isConfirmed) {
+        router.push(`/subunits/${subunitId}`)
+      }
+    })
   }
 
   return (
@@ -83,16 +87,13 @@ export default function EditSubunit() {
       <NavBar />
       <main className="container">
         <div style={{ display: 'flex', gap: '1rem' }}>
-          <RoundButton
-            color="yellow"
-            handler={() => router.push(`/subunits/${subunitId}`)}
-          >
+          <RoundButton color="yellow" handler={handleCancel}>
             <ArrowIcon color="white" height="2rem" width="2rem" />
           </RoundButton>
           <h1>Editar Subunidad Académica</h1>
         </div>
         {loading ? (
-          <p>Loading...</p>
+          <Loader />
         ) : (
           <form className="container" onSubmit={handleSubmit}>
             <h2>Información general</h2>
@@ -153,7 +154,12 @@ export default function EditSubunit() {
                       content={program}
                     />
                   ))}
-                <Card handleAddCard={addProgram} />
+                <Card
+                  handleAddCard={(evt) => {
+                    evt.preventDefault()
+                    router.push(`/subunits/${subunitId}/create-program`)
+                  }}
+                />
               </div>
             </fieldset>
             <div className="fixedContainer">
