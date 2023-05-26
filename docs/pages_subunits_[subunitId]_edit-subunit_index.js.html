@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/subunits/[subunitId]/edit-subunit/index.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/subunits/[subunitId]/edit-subunit/index.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Card from '@/components/Card'
+import Input from '@/components/Input'
+import Select from '@/components/Select'
+import { useEffect, useState } from 'react'
+import { CheckIcon, XIcon, ArrowIcon } from '@/components/Icons'
+import { RoundButton } from '@/components/Buttons'
+import NavBar from '@/components/NavBar'
+import { useRouter } from 'next/router'
+import { PATTERNS, TITLES } from '@/constants/forms'
+import Swal from 'sweetalert2'
+import { ALERT_CFG } from '@/constants/alerts'
+import Loader from '@/components/Loader'
+
+const BASE_API_URL = process.env.BASE_API_URL
+const SUBUNIT_TYPES = ['Departamento', 'Escuela', 'Instituto']
+/**
+ * Página de edición de subunidad académica.
+ * Permite editar la información de una subunidad académica que se encuentra registrada.
+ *
+ * @returns {JSX.Element} Elemento JSX que representa la página de edición de subunidad académica.
+ */
+export default function EditSubunit() {
+  const router = useRouter()
+  const { subunitId } = router.query
+  const [type, setType] = useState('')
+  const [programs, setPrograms] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [subunit, setSubunit] = useState({})
+
+  /**
+   * Obtiene los datos de la subunidad académica desde el servidor.
+   *
+   * @param {string} code - El código de la subunidad académica.
+   */
+  const getSubunitData = async (code) => {
+    fetch(`${BASE_API_URL}/academicSubUnit/all`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const dataFilter = data.filter(
+          (subunit) => subunit.idAcademicSubUnit === parseInt(subunitId)
+        )
+        setSubunit(dataFilter[0])
+        setLoading(false)
+        setType(data.typeAcademicUnit)
+        console.log(data)
+        setPrograms(data.subunits)
+      })
+  }
+
+  useEffect(() => {
+    if (subunitId) {
+      getSubunitData(subunitId)
+    }
+  }, [subunitId])
+
+  /**
+   * Maneja la submisión del formulario de edición de subunidad académica.
+   *
+   * @param {Event} event - Evento de formulario.
+   */
+  function handleSubmit(event) {
+    event.preventDefault()
+    const formData = Object.fromEntries(new FormData(event.target))
+    formData.subunits = programs
+    fetch(`${BASE_API_URL}/api`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+      .then((response) => {
+        if (response.ok) {
+          Swal.fire(ALERT_CFG.success).then(() => {
+            router.push(`/subunits/${subunitId}`)
+          })
+          return response.json()
+        }
+        throw new Error('Error al editar la subunidad académica')
+      })
+      .catch(() => {
+        Swal.fire(ALERT_CFG.error)
+      })
+  }
+
+  /**
+   * Maneja la cancelación de la edición de la subunidad académica.
+   *
+   * @param {Event} event - Evento de formulario.
+   */
+  function handleCancel(event) {
+    event.preventDefault()
+    Swal.fire(ALERT_CFG.cancel).then((result) => {
+      if (result.isConfirmed) {
+        router.push(`/subunits/${subunitId}`)
+      }
+    })
+  }
+
+  return (
+    &lt;>
+      &lt;NavBar />
+      &lt;main className="container">
+        &lt;div style={{ display: 'flex', gap: '1rem' }}>
+          &lt;RoundButton color="yellow" handler={handleCancel}>
+            &lt;ArrowIcon color="white" height="2rem" width="2rem" />
+          &lt;/RoundButton>
+          &lt;h1>Editar Subunidad Académica&lt;/h1>
+        &lt;/div>
+        {loading ? (
+          &lt;Loader />
+        ) : (
+          &lt;form className="container" onSubmit={handleSubmit}>
+            &lt;h2>Información general&lt;/h2>
+            &lt;fieldset className="subContainer">
+              &lt;Input
+                id="nameAcademicSubUnit"
+                placeholder="Nombre de la subunidad académica"
+                label="Nombre de la subunidad académica"
+                pattern={PATTERNS.name}
+                title={TITLES.name}
+                initialValue={subunit.nameAcademicSubUnit}
+                required
+              />
+              &lt;Input
+                id="codeAcademicSubUnit"
+                label="Código de la subunidad académica"
+                initialValue={subunit.codeAcademicSubUnit}
+                disabled
+                required
+              />
+              &lt;Select
+                id="typeAcademicSubUnit"
+                name="type"
+                onChange={setType}
+                value={type}
+                options={SUBUNIT_TYPES}
+                label="Tipo de subunidad académica"
+                required
+              />
+              &lt;Input
+                id="headName"
+                placeholder="Nombre del Jefe de la subunidad académica"
+                label="Nombre del Jefe de la subunidad académica"
+                pattern={PATTERNS.name}
+                title={TITLES.name}
+                initialValue={subunit.headName}
+                required
+              />
+              &lt;Input
+                id="description"
+                placeholder="Descripción"
+                label="Descripción"
+                pattern={PATTERNS.description}
+                title={TITLES.description}
+                initialValue={subunit.description}
+                required
+              />
+            &lt;/fieldset>
+
+            &lt;h2>Programas académicos&lt;/h2>
+            &lt;fieldset className="subContainer">
+              &lt;div className="gridContainer">
+                {programs &amp;&amp;
+                  programs.map((program) => (
+                    &lt;Card
+                      key={`${program}`}
+                      id={`/programs/${program}`}
+                      content={program}
+                    />
+                  ))}
+                &lt;Card
+                  handleAddCard={(evt) => {
+                    evt.preventDefault()
+                    router.push(`/subunits/${subunitId}/create-program`)
+                  }}
+                />
+              &lt;/div>
+            &lt;/fieldset>
+            &lt;div className="fixedContainer">
+              &lt;RoundButton color="green">
+                &lt;CheckIcon width="2rem" height="2rem" color="white" />
+              &lt;/RoundButton>
+              &lt;RoundButton color="red" handler={handleCancel}>
+                &lt;XIcon width="2rem" height="2rem" color="white" />
+              &lt;/RoundButton>
+            &lt;/div>
+          &lt;/form>
+        )}
+      &lt;/main>
+    &lt;/>
+  )
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ALERT_CFG">ALERT_CFG</a></li><li><a href="global.html#ArrowIcon">ArrowIcon</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#CheckIcon">CheckIcon</a></li><li><a href="global.html#EditIcon">EditIcon</a></li><li><a href="global.html#LogoutIcon">LogoutIcon</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#PATTERNS">PATTERNS</a></li><li><a href="global.html#PlusIcon">PlusIcon</a></li><li><a href="global.html#TITLES">TITLES</a></li><li><a href="global.html#TrashIcon">TrashIcon</a></li><li><a href="global.html#UdeaIcon">UdeaIcon</a></li><li><a href="global.html#Units">Units</a></li><li><a href="global.html#ViewSubunit">ViewSubunit</a></li><li><a href="global.html#ViewUnit">ViewUnit</a></li><li><a href="global.html#XIcon">XIcon</a></li><li><a href="global.html#theme">theme</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri May 26 2023 14:01:05 GMT-0500 (hora estándar de Colombia)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

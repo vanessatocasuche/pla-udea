@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/units/index.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/units/index.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { RoundButton } from '@/components/Buttons'
+import Card from '@/components/Card'
+import { PlusIcon, SearchIcon } from '@/components/Icons'
+import Input from '@/components/Input'
+import NavBar from '@/components/NavBar'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import Loader from '@/components/Loader'
+
+const BASE_API_URL = process.env.BASE_API_URL
+
+/**
+ * Componente para la página de visualización del listado de unidades académicas.
+ *
+ * @returns {JSX.Element} Elemento JSX que representa la página del listado de unidades académicas.
+ */
+const Units = () => {
+  const [units, setUnits] = useState([])
+  const [backUpUnits, setBackUpUnits] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
+  const router = useRouter()
+
+  useEffect(() => {
+    const fetchUnits = async () => {
+      const response = await fetch(`${BASE_API_URL}/academicUnit/all`)
+      const data = await response.json()
+      setUnits(data)
+      setBackUpUnits(data)
+      setLoading(false)
+    }
+    fetchUnits()
+  }, [])
+
+  /**
+   * Maneja el evento de creación de una nueva unidad académica y redirige a la página de creación.
+   */
+  const handleCreate = () => {
+    router.push('/create-unit')
+  }
+
+  /**
+   * Maneja el evento de búsqueda de unidades académicas.
+   * Si el campo de búsqueda está vacío, se muestran todas las unidades académicas.
+   * Si el campo de búsqueda no está vacío, se filtran las unidades académicas que coincidan con la búsqueda, aplicando varios procesos de limpieza.
+   *
+   * @param {Event} event Evento de envío del formulario de búsqueda.
+   */
+  const handleSearch = (event) => {
+    event.preventDefault()
+    if (search) {
+      const filter = backUpUnits.filter(({ nameAcademicUnit }) => {
+        const name = nameAcademicUnit
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+        return name.includes(
+          search
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+        )
+      })
+      setUnits(filter)
+    } else {
+      setUnits(backUpUnits)
+    }
+  }
+
+  /**
+   * Maneja el evento de cambio en el campo de búsqueda y restaura la lista de unidades académicas si el campo está vacío.
+   *
+   * @param {Event} event Evento de cambio en el campo de búsqueda.
+   */
+  const handleChange = (event) => {
+    if (event.target.value === '') {
+      setUnits(backUpUnits)
+    }
+  }
+
+  return (
+    &lt;>
+      &lt;NavBar />
+      {loading ? (
+        &lt;Loader />
+      ) : (
+        &lt;main className="container">
+          &lt;h2>Unidades Académicas&lt;/h2>
+          &lt;form
+            onSubmit={handleSearch}
+            onChange={handleChange}
+            style={{
+              alignSelf: 'center',
+              width: 'min(45rem, 100%)',
+              display: 'flex',
+              gap: '1.5rem',
+              justifyContent: 'space-evenly'
+            }}
+          >
+            &lt;Input
+              type="search"
+              value={search}
+              onChange={setSearch}
+              placeholder="Buscar unidad"
+              style={{ width: '100%', alignSelf: 'stretch' }}
+            />
+            &lt;RoundButton>
+              &lt;SearchIcon width="2rem" height="2rem" color="white" />
+            &lt;/RoundButton>
+          &lt;/form>
+          &lt;div className="gridContainer">
+            {units.map(({ idAcademicUnit, nameAcademicUnit }) => (
+              &lt;Card
+                key={`${idAcademicUnit}`}
+                id={`/units/${idAcademicUnit}`}
+                content={nameAcademicUnit}
+              />
+            ))}
+            &lt;RoundButton fixed color="purple" handler={handleCreate}>
+              &lt;PlusIcon color="white" height="2rem" width="2rem" />
+            &lt;/RoundButton>
+          &lt;/div>
+          {units.length === 0 &amp;&amp; (
+            &lt;p> No existen unidades que coincidan con la búsqueda &lt;/p>
+          )}
+        &lt;/main>
+      )}
+    &lt;/>
+  )
+}
+
+export default Units
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ALERT_CFG">ALERT_CFG</a></li><li><a href="global.html#ArrowIcon">ArrowIcon</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#CheckIcon">CheckIcon</a></li><li><a href="global.html#EditIcon">EditIcon</a></li><li><a href="global.html#LogoutIcon">LogoutIcon</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#PATTERNS">PATTERNS</a></li><li><a href="global.html#PlusIcon">PlusIcon</a></li><li><a href="global.html#TITLES">TITLES</a></li><li><a href="global.html#TrashIcon">TrashIcon</a></li><li><a href="global.html#UdeaIcon">UdeaIcon</a></li><li><a href="global.html#Units">Units</a></li><li><a href="global.html#ViewSubunit">ViewSubunit</a></li><li><a href="global.html#ViewUnit">ViewUnit</a></li><li><a href="global.html#XIcon">XIcon</a></li><li><a href="global.html#theme">theme</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri May 26 2023 14:01:05 GMT-0500 (hora estándar de Colombia)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
