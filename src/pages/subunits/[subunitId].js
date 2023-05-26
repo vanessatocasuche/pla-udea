@@ -3,6 +3,7 @@ import Card from '@/components/Card'
 import { ArrowIcon, EditIcon } from '@/components/Icons'
 import Loader from '@/components/Loader'
 import NavBar from '@/components/NavBar'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -50,6 +51,9 @@ const ViewSubunit = () => {
 
   return (
     <>
+      <Head>
+        <title>Subunidad Académica</title>
+      </Head>
       <NavBar />
       {loading ? (
         <Loader />

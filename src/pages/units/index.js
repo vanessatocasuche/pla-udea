@@ -6,6 +6,7 @@ import NavBar from '@/components/NavBar'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Loader from '@/components/Loader'
+import Head from 'next/head'
 
 const BASE_API_URL = process.env.BASE_API_URL
 
@@ -80,6 +81,9 @@ const Units = () => {
 
   return (
     <>
+      <Head>
+        <title>Unidades Académicas</title>
+      </Head>
       <NavBar />
       {loading ? (
         <Loader />

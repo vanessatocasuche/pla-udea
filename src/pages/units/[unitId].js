@@ -4,6 +4,7 @@ import { ArrowIcon, EditIcon, TrashIcon } from '@/components/Icons'
 import Loader from '@/components/Loader'
 import NavBar from '@/components/NavBar'
 import { ALERT_CFG } from '@/constants/alerts'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
@@ -82,6 +83,9 @@ const ViewUnit = () => {
 
   return (
     <>
+      <Head>
+        <title>Unidad Académica</title>
+      </Head>
       <NavBar />
       {loading ? (
         <Loader />
