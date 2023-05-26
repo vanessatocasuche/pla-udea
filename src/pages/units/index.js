@@ -5,6 +5,7 @@ import Input from '@/components/Input'
 import NavBar from '@/components/NavBar'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import Loader from '@/components/Loader'
 
 const BASE_API_URL = process.env.BASE_API_URL
 
@@ -61,7 +62,7 @@ const Units = () => {
     <>
       <NavBar />
       {loading ? (
-        <p>Loading...</p>
+        <Loader />
       ) : (
         <main className="container">
           <h2>Unidades Académicas</h2>

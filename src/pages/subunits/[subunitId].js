@@ -1,6 +1,7 @@
 import { RoundButton } from '@/components/Buttons'
 import Card from '@/components/Card'
 import { ArrowIcon, EditIcon } from '@/components/Icons'
+import Loader from '@/components/Loader'
 import NavBar from '@/components/NavBar'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -22,7 +23,9 @@ const ViewSubunit = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        const dataFilter = data.filter((subunit) => subunit.idAcademicSubUnit === parseInt(id))
+        const dataFilter = data.filter(
+          (subunit) => subunit.idAcademicSubUnit === parseInt(id)
+        )
         setData(dataFilter[0])
         return data
       })
@@ -39,11 +42,11 @@ const ViewSubunit = () => {
     <>
       <NavBar />
       {loading ? (
-        <p>Loading...</p>
+        <Loader />
       ) : data ? (
         <main className="container">
           <div style={{ display: 'flex', gap: '1rem' }}>
-            <RoundButton color="yellow" handler={() => router.back()}>
+            <RoundButton color="yellow" handler={() => router.push(`/units${'/'}`)}>
               <ArrowIcon color="white" height="2rem" width="2rem" />
             </RoundButton>
             <h1>{data.nameAcademicSubUnit}</h1>

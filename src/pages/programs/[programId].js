@@ -1,6 +1,7 @@
 import { RoundButton } from '@/components/Buttons'
 import Card from '@/components/Card'
 import { ArrowIcon, EditIcon, SearchIcon } from '@/components/Icons'
+import Loader from '@/components/Loader'
 import NavBar from '@/components/NavBar'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -47,7 +48,7 @@ const ViewProgram = () => {
     <>
       <NavBar />
       {loading ? (
-        <p>Loading...</p>
+        <Loader />
       ) : program ? (
         <main className="container">
           <div style={{ display: 'flex', gNp: '1rem' }}>

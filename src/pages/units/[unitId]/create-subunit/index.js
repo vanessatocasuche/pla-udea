@@ -7,9 +7,11 @@ import { RoundButton } from '@/components/Buttons'
 import NavBar from '@/components/NavBar'
 import { useRouter } from 'next/router'
 import { PATTERNS, TITLES } from '@/constants/forms'
+import Swal from 'sweetalert2'
+import { ALERT_CFG } from '@/constants/alerts'
 
 const BASE_API_URL = process.env.BASE_API_URL
-const SUBUNIT_TYPES = ['Departamento', 'Escuela', 'Institutos']
+const SUBUNIT_TYPES = ['Departamento', 'Escuela', 'Instituto']
 
 export default function CreateSubunit() {
   const router = useRouter()
@@ -19,7 +21,7 @@ export default function CreateSubunit() {
   function handleSubmit(event) {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.target))
-    formData.unidadAcademica = { idAcademicUnit: parseInt(unitId) }
+    formData.academicUnit = { idAcademicUnit: parseInt(unitId) }
     fetch(`${BASE_API_URL}/academicSubUnit`, {
       method: 'POST',
       headers: {
@@ -37,18 +39,23 @@ export default function CreateSubunit() {
         if (data && event.nativeEvent.submitter.name === 'addProgram') {
           router.push(`/subunits/${data.idAcademicSubUnit}/create-program`)
         } else {
-          router.push(`/subunits/${data.idAcademicSubUnit}`)
+          Swal.fire(ALERT_CFG.success).then(() => {
+            router.push(`/subunits/${data.idAcademicSubUnit}`)
+          })
         }
       })
-      .catch((error) => {
-        alert(error.message)
+      .catch(() => {
+        Swal.fire(ALERT_CFG.error)
       })
   }
 
   function handleCancel(event) {
     event.preventDefault()
-    window.confirm('¿Está seguro que desea cancelar?') &&
-      router.push(`/units/${unitId}`)
+    Swal.fire(ALERT_CFG.cancel).then((result) => {
+      if (result.isConfirmed) {
+        router.push(`/units/${unitId}`)
+      }
+    })
   }
 
   return (
@@ -56,10 +63,7 @@ export default function CreateSubunit() {
       <NavBar />
       <main className="container">
         <div style={{ display: 'flex', gap: '1rem' }}>
-          <RoundButton
-            color="yellow"
-            handler={() => router.push(`/units/${unitId}`)}
-          >
+          <RoundButton color="yellow" handler={handleCancel}>
             <ArrowIcon color="white" height="2rem" width="2rem" />
           </RoundButton>
           <h1>Crear Subunidad Académica</h1>

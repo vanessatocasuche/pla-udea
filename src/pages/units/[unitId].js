@@ -1,9 +1,12 @@
 import { RoundButton } from '@/components/Buttons'
 import Card from '@/components/Card'
 import { ArrowIcon, EditIcon, TrashIcon } from '@/components/Icons'
+import Loader from '@/components/Loader'
 import NavBar from '@/components/NavBar'
+import { ALERT_CFG } from '@/constants/alerts'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import Swal from 'sweetalert2'
 
 const ViewUnit = () => {
   const BASE_API_URL = process.env.BASE_API_URL
@@ -23,9 +26,6 @@ const ViewUnit = () => {
       .then((response) => {
         if (response.status === 200) {
           return response.json()
-        } else {
-          alert('Error al obtener la unidad académica')
-          setLoading(false)
         }
       })
       .then((data) => {
@@ -34,20 +34,27 @@ const ViewUnit = () => {
       })
   }
 
+  function deleteUnitApi() {
+    fetch(`${BASE_API_URL}/academicUnit/${unitId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => {
+      if (response.status === 200) {
+        router.push('/units')
+      } else {
+        Swal.fire(ALERT_CFG.error)
+      }
+    })
+  }
+
   const deleteUnit = () => {
-    window.confirm('¿Está seguro que desea eliminar la unidad académica?') &&
-      fetch(`${BASE_API_URL}/academicUnit/${unitId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then((response) => {
-        if (response.status === 200) {
-          router.push('/units')
-        } else {
-          alert('Error al eliminar la unidad académica')
-        }
-      })
+    Swal.fire(ALERT_CFG.delete).then((result) => {
+      if (result.isConfirmed) {
+        deleteUnitApi()
+      }
+    })
   }
 
   useEffect(() => {
@@ -60,7 +67,7 @@ const ViewUnit = () => {
     <>
       <NavBar />
       {loading ? (
-        <p>Loading...</p>
+        <Loader />
       ) : data ? (
         <main className="container">
           <div style={{ display: 'flex', gap: '1rem' }}>
