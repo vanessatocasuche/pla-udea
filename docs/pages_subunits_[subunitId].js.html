@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/subunits/[subunitId].js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/subunits/[subunitId].js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { RoundButton } from '@/components/Buttons'
+import Card from '@/components/Card'
+import { ArrowIcon, EditIcon } from '@/components/Icons'
+import Loader from '@/components/Loader'
+import NavBar from '@/components/NavBar'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+
+/**
+ * Componente página para mostrar los detalles de una subunidad académica.
+ *
+ * @returns {JSX.Element} Elemento JSX que muestra los detalles de la subunidad académica.
+ */
+const ViewSubunit = () => {
+  const BASE_API_URL = process.env.BASE_API_URL
+
+  const router = useRouter()
+  const { subunitId } = router.query
+  const [data, setData] = useState({})
+  const [loading, setLoading] = useState(true)
+
+  /**
+   * Obtiene los datos de la subunidad académica desde el servidor.
+   *
+   * @param {string} id - El ID de la subunidad académica.
+   */
+  function getSubunit(id) {
+    fetch(`${BASE_API_URL}/academicSubUnit/all`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const dataFilter = data.filter(
+          (subunit) => subunit.idAcademicSubUnit === parseInt(id)
+        )
+        setData(dataFilter[0])
+        return data
+      })
+  }
+
+  useEffect(() => {
+    if (subunitId) {
+      getSubunit(subunitId)
+      setLoading(false)
+    }
+  }, [subunitId])
+
+  return (
+    &lt;>
+      &lt;NavBar />
+      {loading ? (
+        &lt;Loader />
+      ) : data ? (
+        &lt;main className="container">
+          &lt;div style={{ display: 'flex', gap: '1rem' }}>
+            &lt;RoundButton
+              color="yellow"
+              handler={() => router.push(`/units${'/'}`)}
+            >
+              &lt;ArrowIcon color="white" height="2rem" width="2rem" />
+            &lt;/RoundButton>
+            &lt;h1>{data.nameAcademicSubUnit}&lt;/h1>
+          &lt;/div>
+          &lt;section className="subContainer">
+            &lt;div>
+              &lt;h3>Descripción de la Subunidad académica&lt;/h3>
+              &lt;p>{data.description}&lt;/p>
+            &lt;/div>
+            &lt;div>
+              &lt;h3>Tipo de Subunidad académica&lt;/h3>
+              &lt;p>{data.typeAcademicSubUnit}&lt;/p>
+            &lt;/div>
+            &lt;div>
+              &lt;h3>Jefe de la Subunidad académica&lt;/h3>
+              &lt;p>{data.headName}&lt;/p>
+            &lt;/div>
+            &lt;div>
+              &lt;h3>Código de la Subunidad académica&lt;/h3>
+              &lt;p>{data.codeAcademicSubUnit}&lt;/p>
+            &lt;/div>
+          &lt;/section>
+          &lt;section className="subContainer">
+            &lt;h2>Programas Académicos&lt;/h2>
+            {data.programs ? (
+              &lt;div className="gridContainer">
+                {data.programs.map((program) => (
+                  &lt;Card key={`${program}`} content={program} />
+                ))}
+              &lt;/div>
+            ) : (
+              &lt;p>No hay programas académicos registrados&lt;/p>
+            )}
+          &lt;/section>
+          &lt;RoundButton
+            fixed
+            color="purple"
+            handler={() => router.push(`/subunits/${subunitId}/edit-subunit`)}
+          >
+            &lt;EditIcon color="white" width="2rem" height="2rem" />
+          &lt;/RoundButton>
+        &lt;/main>
+      ) : (
+        &lt;p>No hay datos registrados para el programa académico solicitado&lt;/p>
+      )}
+    &lt;/>
+  )
+}
+
+export default ViewSubunit
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ALERT_CFG">ALERT_CFG</a></li><li><a href="global.html#ArrowIcon">ArrowIcon</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#CheckIcon">CheckIcon</a></li><li><a href="global.html#EditIcon">EditIcon</a></li><li><a href="global.html#LogoutIcon">LogoutIcon</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#PATTERNS">PATTERNS</a></li><li><a href="global.html#PlusIcon">PlusIcon</a></li><li><a href="global.html#TITLES">TITLES</a></li><li><a href="global.html#TrashIcon">TrashIcon</a></li><li><a href="global.html#UdeaIcon">UdeaIcon</a></li><li><a href="global.html#Units">Units</a></li><li><a href="global.html#ViewSubunit">ViewSubunit</a></li><li><a href="global.html#ViewUnit">ViewUnit</a></li><li><a href="global.html#XIcon">XIcon</a></li><li><a href="global.html#theme">theme</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri May 26 2023 14:01:05 GMT-0500 (hora estándar de Colombia)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
