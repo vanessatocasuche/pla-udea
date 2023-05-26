@@ -1,5 +1,24 @@
 import { theme } from '@/theme/theme'
+/**
+ * Objeto de configuración para los diferentes tipos de alertas.
+ * @typedef {Object} AlertConfig
+ * @property {string} title - El título de la alerta.
+ * @property {string} text - El texto de la alerta.
+ * @property {string} icon - El ícono de la alerta.
+ * @property {string} iconColor - El color del ícono de la alerta.
+ * @property {boolean} showCancelButton - Indica si se muestra el botón de cancelar.
+ * @property {string} confirmButtonText - El texto a mostrar en el botón de confirmar.
+ * @property {string} cancelButtonText - El texto a mostrar en el botón de cancelar.
+ * @property {string} confirmButtonColor - El color del botón de confirmar.
+ * @property {string} cancelButtonColor - El color del botón de cancelar.
+ * @property {boolean} focusCancel - El color del botón de cancelar.
+ * @property {boolean} focusConfirm - El color del botón de confirmar.
+ */
 
+/**
+ * Objeto de configuración para los diferentes tipos de alertas.
+ * @type {Object.<string, AlertConfig>}
+ */
 export const ALERT_CFG = {
   cancel: {
     title: '¿Está seguro que desea cancelar?',
