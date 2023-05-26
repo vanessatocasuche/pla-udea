@@ -11,7 +11,7 @@ import Swal from 'sweetalert2'
 import { ALERT_CFG } from '@/constants/alerts'
 
 const BASE_API_URL = process.env.BASE_API_URL
-const SUBUNIT_TYPES = ['Departamento', 'Escuela', 'Institutos']
+const SUBUNIT_TYPES = ['Departamento', 'Escuela', 'Instituto']
 
 export default function CreateSubunit() {
   const router = useRouter()
@@ -21,7 +21,7 @@ export default function CreateSubunit() {
   function handleSubmit(event) {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.target))
-    formData.unidadAcademica = { idAcademicUnit: parseInt(unitId) }
+    formData.academicUnit = { idAcademicUnit: parseInt(unitId) }
     fetch(`${BASE_API_URL}/academicSubUnit`, {
       method: 'POST',
       headers: {
