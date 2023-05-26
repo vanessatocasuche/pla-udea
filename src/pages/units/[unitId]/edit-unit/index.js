@@ -14,6 +14,12 @@ import Loader from '@/components/Loader'
 const BASE_API_URL = process.env.BASE_API_URL
 const UNIT_TYPES = ['Facultad', 'Escuela', 'Institutos', 'Corporación']
 
+/**
+ * Componente para el formulario de edición de una unidad académica.
+ * En está página se puede editar una unidad académica, cumpliendo las validaciones especificadas.
+ *
+ * @returns {JSX.Element} Elemento JSX que representa el formulario de edición de una unidad académica.
+ */
 export default function EditUnit() {
   const router = useRouter()
   const { unitId } = router.query
@@ -22,6 +28,11 @@ export default function EditUnit() {
   const [loading, setLoading] = useState(true)
   const [unit, setUnit] = useState({})
 
+  /**
+   * Obtiene los datos de la unidad académica a editar desde el servidor.
+   *
+   * @param {string} id - El ID de la unidad académica.
+   */
   const getUnitData = async (id) => {
     fetch(`${BASE_API_URL}/academicUnit/${id}`, {
       method: 'GET',
@@ -44,6 +55,11 @@ export default function EditUnit() {
     }
   }, [unitId])
 
+  /**
+   * Maneja el envío del formulario de edición de la unidad académica.
+   *
+   * @param {Event} event - Evento de envío del formulario.
+   */
   function handleSubmit(event) {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.target))
@@ -69,6 +85,11 @@ export default function EditUnit() {
       })
   }
 
+  /**
+   * Maneja el evento de cancelación y muestra una confirmación al usuario.
+   *
+   * @param {Event} event - Evento del botón de cancelar.
+   */
   function handleCancel(event) {
     event.preventDefault()
     Swal.fire(ALERT_CFG.cancel).then((result) => {

@@ -13,7 +13,12 @@ import Loader from '@/components/Loader'
 
 const BASE_API_URL = process.env.BASE_API_URL
 const SUBUNIT_TYPES = ['Departamento', 'Escuela', 'Instituto']
-
+/**
+ * Página de edición de subunidad académica.
+ * Permite editar la información de una subunidad académica que se encuentra registrada.
+ *
+ * @returns {JSX.Element} Elemento JSX que representa la página de edición de subunidad académica.
+ */
 export default function EditSubunit() {
   const router = useRouter()
   const { subunitId } = router.query
@@ -22,6 +27,11 @@ export default function EditSubunit() {
   const [loading, setLoading] = useState(true)
   const [subunit, setSubunit] = useState({})
 
+  /**
+   * Obtiene los datos de la subunidad académica desde el servidor.
+   *
+   * @param {string} code - El código de la subunidad académica.
+   */
   const getSubunitData = async (code) => {
     fetch(`${BASE_API_URL}/academicSubUnit/all`, {
       method: 'GET',
@@ -48,6 +58,11 @@ export default function EditSubunit() {
     }
   }, [subunitId])
 
+  /**
+   * Maneja la submisión del formulario de edición de subunidad académica.
+   *
+   * @param {Event} event - Evento de formulario.
+   */
   function handleSubmit(event) {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.target))
@@ -73,6 +88,11 @@ export default function EditSubunit() {
       })
   }
 
+  /**
+   * Maneja la cancelación de la edición de la subunidad académica.
+   *
+   * @param {Event} event - Evento de formulario.
+   */
   function handleCancel(event) {
     event.preventDefault()
     Swal.fire(ALERT_CFG.cancel).then((result) => {

@@ -8,6 +8,12 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 
+/**
+ * Componente para la página de visualización de una unidad académica específica.
+ * En está página se puede ver la información de la unidad académica, así como las subunidades académicas que la componen.
+ *
+ * @returns {JSX.Element} Elemento JSX que representa la página de visualización de una unidad académica.
+ */
 const ViewUnit = () => {
   const BASE_API_URL = process.env.BASE_API_URL
 
@@ -16,6 +22,11 @@ const ViewUnit = () => {
   const [data, setData] = useState(undefined)
   const [loading, setLoading] = useState(true)
 
+  /**
+   * Obtiene los datos de la unidad académica mediante una solicitud al servidor.
+   *
+   * @param {string} id Identificador de la unidad académica.
+   */
   function getUnit(id) {
     fetch(`${BASE_API_URL}/academicUnit/${id}`, {
       method: 'GET',
@@ -34,6 +45,9 @@ const ViewUnit = () => {
       })
   }
 
+  /**
+   * Realiza una solicitud al servidor para eliminar la unidad académica.
+   */
   function deleteUnitApi() {
     fetch(`${BASE_API_URL}/academicUnit/${unitId}`, {
       method: 'DELETE',
@@ -49,6 +63,9 @@ const ViewUnit = () => {
     })
   }
 
+  /**
+   * Maneja el evento de eliminación de la unidad académica y muestra una confirmación al usuario.
+   */
   const deleteUnit = () => {
     Swal.fire(ALERT_CFG.delete).then((result) => {
       if (result.isConfirmed) {

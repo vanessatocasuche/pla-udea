@@ -9,6 +9,11 @@ import Loader from '@/components/Loader'
 
 const BASE_API_URL = process.env.BASE_API_URL
 
+/**
+ * Componente para la página de visualización del listado de unidades académicas.
+ *
+ * @returns {JSX.Element} Elemento JSX que representa la página del listado de unidades académicas.
+ */
 const Units = () => {
   const [units, setUnits] = useState([])
   const [backUpUnits, setBackUpUnits] = useState([])
@@ -27,10 +32,20 @@ const Units = () => {
     fetchUnits()
   }, [])
 
+  /**
+   * Maneja el evento de creación de una nueva unidad académica y redirige a la página de creación.
+   */
   const handleCreate = () => {
     router.push('/create-unit')
   }
 
+  /**
+   * Maneja el evento de búsqueda de unidades académicas.
+   * Si el campo de búsqueda está vacío, se muestran todas las unidades académicas.
+   * Si el campo de búsqueda no está vacío, se filtran las unidades académicas que coincidan con la búsqueda, aplicando varios procesos de limpieza.
+   *
+   * @param {Event} event Evento de envío del formulario de búsqueda.
+   */
   const handleSearch = (event) => {
     event.preventDefault()
     if (search) {
@@ -52,6 +67,11 @@ const Units = () => {
     }
   }
 
+  /**
+   * Maneja el evento de cambio en el campo de búsqueda y restaura la lista de unidades académicas si el campo está vacío.
+   *
+   * @param {Event} event Evento de cambio en el campo de búsqueda.
+   */
   const handleChange = (event) => {
     if (event.target.value === '') {
       setUnits(backUpUnits)

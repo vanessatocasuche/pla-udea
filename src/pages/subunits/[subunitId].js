@@ -6,6 +6,11 @@ import NavBar from '@/components/NavBar'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
+/**
+ * Componente página para mostrar los detalles de una subunidad académica.
+ *
+ * @returns {JSX.Element} Elemento JSX que muestra los detalles de la subunidad académica.
+ */
 const ViewSubunit = () => {
   const BASE_API_URL = process.env.BASE_API_URL
 
@@ -14,6 +19,11 @@ const ViewSubunit = () => {
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(true)
 
+  /**
+   * Obtiene los datos de la subunidad académica desde el servidor.
+   *
+   * @param {string} id - El ID de la subunidad académica.
+   */
   function getSubunit(id) {
     fetch(`${BASE_API_URL}/academicSubUnit/all`, {
       method: 'GET',
@@ -46,7 +56,10 @@ const ViewSubunit = () => {
       ) : data ? (
         <main className="container">
           <div style={{ display: 'flex', gap: '1rem' }}>
-            <RoundButton color="yellow" handler={() => router.push(`/units${'/'}`)}>
+            <RoundButton
+              color="yellow"
+              handler={() => router.push(`/units${'/'}`)}
+            >
               <ArrowIcon color="white" height="2rem" width="2rem" />
             </RoundButton>
             <h1>{data.nameAcademicSubUnit}</h1>

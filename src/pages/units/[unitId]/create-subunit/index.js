@@ -13,11 +13,22 @@ import { ALERT_CFG } from '@/constants/alerts'
 const BASE_API_URL = process.env.BASE_API_URL
 const SUBUNIT_TYPES = ['Departamento', 'Escuela', 'Instituto']
 
+/**
+ * Componente para el formulario de creación de una subunidad académica.
+ * En está página se puede crear una subunidad académica, cumpliendo las validaciones especificadas.
+ *
+ * @returns {JSX.Element} Elemento JSX que representa el formulario de creación de una subunidad académica.
+ */
 export default function CreateSubunit() {
   const router = useRouter()
   const [type, setType] = useState('')
   const { unitId } = router.query
 
+  /**
+   * Maneja el envío del formulario de creación de la subunidad académica.
+   *
+   * @param {Event} event Evento de envío del formulario.
+   */
   function handleSubmit(event) {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.target))
@@ -49,6 +60,11 @@ export default function CreateSubunit() {
       })
   }
 
+  /**
+   * Maneja el evento de cancelación y muestra una confirmación al usuario.
+   *
+   * @param {Event} event Evento del botón de cancelar.
+   */
   function handleCancel(event) {
     event.preventDefault()
     Swal.fire(ALERT_CFG.cancel).then((result) => {
