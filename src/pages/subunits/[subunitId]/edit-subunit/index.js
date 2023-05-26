@@ -10,6 +10,7 @@ import { PATTERNS, TITLES } from '@/constants/forms'
 import Swal from 'sweetalert2'
 import { ALERT_CFG } from '@/constants/alerts'
 import Loader from '@/components/Loader'
+import Head from 'next/head'
 
 const BASE_API_URL = process.env.BASE_API_URL
 const SUBUNIT_TYPES = ['Departamento', 'Escuela', 'Instituto']
@@ -104,6 +105,9 @@ export default function EditSubunit() {
 
   return (
     <>
+      <Head>
+        <title>Editar Subunidad Académica</title>
+      </Head>
       <NavBar />
       <main className="container">
         <div style={{ display: 'flex', gap: '1rem' }}>

@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import { PATTERNS, TITLES } from '@/constants/forms'
 import Swal from 'sweetalert2'
 import { ALERT_CFG } from '@/constants/alerts'
+import Head from 'next/head'
 
 const BASE_API_URL = process.env.BASE_API_URL
 const UNIT_TYPES = ['Facultad', 'Escuela', 'Institutos', 'Corporación']
@@ -73,6 +74,9 @@ export default function CreateUnit() {
 
   return (
     <>
+      <Head>
+        <title>Crear Unidad Académica</title>
+      </Head>
       <NavBar />
       <main className="container">
         <div style={{ display: 'flex', gap: '1rem' }}>
