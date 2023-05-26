@@ -4,6 +4,11 @@ import { useRouter } from 'next/router'
 import logosimboloUdea from '@/assets/logosimbolo-vertical.png'
 import Head from 'next/head'
 
+/**
+ * Componente para la página de inicio de la plataforma.
+ *
+ * @returns {JSX.Element} Elemento JSX que representa la página de inicio.
+ */
 export default function Home() {
   const router = useRouter()
 
@@ -18,10 +23,16 @@ export default function Home() {
       </Head>
       <main
         className="container"
-        style={{ alignItems: 'center', marginTop: '20vh' }}
+        style={{
+          height: 'calc(100vh - 4rem)',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
       >
         <Image src={logosimboloUdea} width={300} alt="Logosimbolo - UdeA" />
-        <Button handler={() => router.push('/units')}>Conectar</Button>
+        <div style={{ height: '4rem' }}>
+          <Button handler={() => router.push('/units')}>Conectar</Button>
+        </div>
       </main>
     </>
   )

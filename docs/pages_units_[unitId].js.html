@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/units/[unitId].js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/units/[unitId].js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { RoundButton } from '@/components/Buttons'
+import Card from '@/components/Card'
+import { ArrowIcon, EditIcon, TrashIcon } from '@/components/Icons'
+import Loader from '@/components/Loader'
+import NavBar from '@/components/NavBar'
+import { ALERT_CFG } from '@/constants/alerts'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import Swal from 'sweetalert2'
+
+/**
+ * Componente para la página de visualización de una unidad académica específica.
+ * En está página se puede ver la información de la unidad académica, así como las subunidades académicas que la componen.
+ *
+ * @returns {JSX.Element} Elemento JSX que representa la página de visualización de una unidad académica.
+ */
+const ViewUnit = () => {
+  const BASE_API_URL = process.env.BASE_API_URL
+
+  const router = useRouter()
+  const { unitId } = router.query
+  const [data, setData] = useState(undefined)
+  const [loading, setLoading] = useState(true)
+
+  /**
+   * Obtiene los datos de la unidad académica mediante una solicitud al servidor.
+   *
+   * @param {string} id Identificador de la unidad académica.
+   */
+  function getUnit(id) {
+    fetch(`${BASE_API_URL}/academicUnit/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json()
+        }
+      })
+      .then((data) => {
+        setData(data)
+        setLoading(false)
+      })
+  }
+
+  /**
+   * Realiza una solicitud al servidor para eliminar la unidad académica.
+   */
+  function deleteUnitApi() {
+    fetch(`${BASE_API_URL}/academicUnit/${unitId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => {
+      if (response.status === 200) {
+        router.push('/units')
+      } else {
+        Swal.fire(ALERT_CFG.error)
+      }
+    })
+  }
+
+  /**
+   * Maneja el evento de eliminación de la unidad académica y muestra una confirmación al usuario.
+   */
+  const deleteUnit = () => {
+    Swal.fire(ALERT_CFG.delete).then((result) => {
+      if (result.isConfirmed) {
+        deleteUnitApi()
+      }
+    })
+  }
+
+  useEffect(() => {
+    if (unitId) {
+      getUnit(unitId)
+    }
+  }, [unitId])
+
+  return (
+    &lt;>
+      &lt;NavBar />
+      {loading ? (
+        &lt;Loader />
+      ) : data ? (
+        &lt;main className="container">
+          &lt;div style={{ display: 'flex', gap: '1rem' }}>
+            &lt;RoundButton color="yellow" handler={() => router.push('/units')}>
+              &lt;ArrowIcon color="white" height="2rem" width="2rem" />
+            &lt;/RoundButton>
+            &lt;h1>{data.nameAcademicUnit}&lt;/h1>
+          &lt;/div>
+          &lt;section className="subContainer">
+            &lt;div>
+              &lt;h3>Descripción de la unidad académica&lt;/h3>
+              &lt;p>{data.description}&lt;/p>
+            &lt;/div>
+            &lt;div>
+              &lt;h3>Tipo de unidad académica&lt;/h3>
+              &lt;p>{data.typeAcademicUnit}&lt;/p>
+            &lt;/div>
+            &lt;div>
+              &lt;h3>Decano&lt;/h3>
+              &lt;p>{data.deanName}&lt;/p>
+            &lt;/div>
+            &lt;div>
+              &lt;h3>Código de la unidad académica&lt;/h3>
+              &lt;p>{data.codeAcademicUnit}&lt;/p>
+            &lt;/div>
+            &lt;div>
+              &lt;h3>Enlace de acuerdo de creación de la unidad académica&lt;/h3>
+              &lt;p>
+                {data.urlCreationAcademicUnit
+                  ? data.urlCreationAcademicUnit
+                  : '- Información no sumistrada - '}
+              &lt;/p>
+            &lt;/div>
+            &lt;div>
+              &lt;h3>Código de centro de costos de la unidad académica&lt;/h3>
+              &lt;p>{data.costCenterCode}&lt;/p>
+            &lt;/div>
+          &lt;/section>
+          &lt;section className="subContainer">
+            &lt;h2>Subunidades Académicas&lt;/h2>
+            {data.academicSubUnits ? (
+              &lt;div className="gridContainer">
+                {data.academicSubUnits.map(
+                  ({ nameAcademicSubUnit, idAcademicSubUnit }) => (
+                    &lt;Card
+                      key={`${nameAcademicSubUnit}${idAcademicSubUnit}`}
+                      content={nameAcademicSubUnit}
+                      id={`/subunits/${idAcademicSubUnit}`}
+                    />
+                  )
+                )}
+                {data.academicSubUnits.length === 0 &amp;&amp; (
+                  &lt;p>No hay subunidades académicas registradas&lt;/p>
+                )}
+              &lt;/div>
+            ) : (
+              &lt;p>No hay subunidades académicas registradas&lt;/p>
+            )}
+          &lt;/section>
+          &lt;div className="fixedContainer">
+            &lt;RoundButton color="red" handler={deleteUnit}>
+              &lt;TrashIcon color="white" width="2rem" height="2rem" />
+            &lt;/RoundButton>
+            &lt;RoundButton
+              color="purple"
+              handler={() => router.push(`/units/${unitId}/edit-unit`)}
+            >
+              &lt;EditIcon color="white" width="2rem" height="2rem" />
+            &lt;/RoundButton>
+          &lt;/div>
+        &lt;/main>
+      ) : (
+        &lt;p>No hay datos registrados para la unidad académica solicitada&lt;/p>
+      )}
+    &lt;/>
+  )
+}
+
+export default ViewUnit
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ALERT_CFG">ALERT_CFG</a></li><li><a href="global.html#ArrowIcon">ArrowIcon</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#CheckIcon">CheckIcon</a></li><li><a href="global.html#EditIcon">EditIcon</a></li><li><a href="global.html#LogoutIcon">LogoutIcon</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#PATTERNS">PATTERNS</a></li><li><a href="global.html#PlusIcon">PlusIcon</a></li><li><a href="global.html#TITLES">TITLES</a></li><li><a href="global.html#TrashIcon">TrashIcon</a></li><li><a href="global.html#UdeaIcon">UdeaIcon</a></li><li><a href="global.html#Units">Units</a></li><li><a href="global.html#ViewSubunit">ViewSubunit</a></li><li><a href="global.html#ViewUnit">ViewUnit</a></li><li><a href="global.html#XIcon">XIcon</a></li><li><a href="global.html#theme">theme</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri May 26 2023 14:01:05 GMT-0500 (hora estándar de Colombia)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

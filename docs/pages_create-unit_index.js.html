@@ -1,4 +1,32 @@
-import Card from '@/components/Card'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/create-unit/index.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/create-unit/index.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Card from '@/components/Card'
 import Input from '@/components/Input'
 import Select from '@/components/Select'
 import { useState } from 'react'
@@ -45,7 +73,7 @@ export default function CreateUnit() {
         throw new Error('Error al crear la unidad académica')
       })
       .then((data) => {
-        if (data && event.nativeEvent.submitter.name === 'addUnit') {
+        if (data &amp;&amp; event.nativeEvent.submitter.name === 'addUnit') {
           router.push(`/units/${data.idAcademicUnit}/create-subunit`)
         } else {
           Swal.fire(ALERT_CFG.success).then(() => {
@@ -72,19 +100,19 @@ export default function CreateUnit() {
   }
 
   return (
-    <>
-      <NavBar />
-      <main className="container">
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <RoundButton color="yellow" handler={handleCancel}>
-            <ArrowIcon color="white" height="2rem" width="2rem" />
-          </RoundButton>
-          <h1>Crear Unidad Académica</h1>
-        </div>
-        <form className="container" onSubmit={handleSubmit}>
-          <h2>Información general</h2>
-          <fieldset className="subContainer">
-            <Input
+    &lt;>
+      &lt;NavBar />
+      &lt;main className="container">
+        &lt;div style={{ display: 'flex', gap: '1rem' }}>
+          &lt;RoundButton color="yellow" handler={handleCancel}>
+            &lt;ArrowIcon color="white" height="2rem" width="2rem" />
+          &lt;/RoundButton>
+          &lt;h1>Crear Unidad Académica&lt;/h1>
+        &lt;/div>
+        &lt;form className="container" onSubmit={handleSubmit}>
+          &lt;h2>Información general&lt;/h2>
+          &lt;fieldset className="subContainer">
+            &lt;Input
               id="nameAcademicUnit"
               placeholder="Nombre de la unidad académica"
               label="Nombre de la unidad académica"
@@ -92,7 +120,7 @@ export default function CreateUnit() {
               title={TITLES.name}
               required
             />
-            <Input
+            &lt;Input
               id="codeAcademicUnit"
               placeholder="Código de la unidad académica"
               label="Código de la unidad académica"
@@ -100,7 +128,7 @@ export default function CreateUnit() {
               title={TITLES.code}
               required
             />
-            <Select
+            &lt;Select
               id="typeAcademicUnit"
               name="typeAcademicUnit"
               onChange={setType}
@@ -110,7 +138,7 @@ export default function CreateUnit() {
               label="Tipo de unidad académica"
               required
             />
-            <Input
+            &lt;Input
               id="deanName"
               placeholder="Nombre del decano"
               label="Nombre del decano"
@@ -118,7 +146,7 @@ export default function CreateUnit() {
               title={TITLES.name}
               required
             />
-            <Input
+            &lt;Input
               id="description"
               placeholder="Descripción"
               label="Descripción"
@@ -126,7 +154,7 @@ export default function CreateUnit() {
               title={TITLES.description}
               required
             />
-            <Input
+            &lt;Input
               id="ubicationAcademicUnit"
               placeholder="Ubicación de la unidad académica"
               label="Ubicación de la unidad académica"
@@ -134,13 +162,13 @@ export default function CreateUnit() {
               title={TITLES.address}
               required
             />
-            <Input
+            &lt;Input
               id="urlCreationAcademicUnit"
               placeholder="Enlace de acuerdo de creación"
               label="Enlace de acuerdo de creación"
               type="url"
             />
-            <Input
+            &lt;Input
               id="costCenterCode"
               placeholder="Código de centro de costos"
               label="Código de centro de costos"
@@ -148,24 +176,47 @@ export default function CreateUnit() {
               title={TITLES.centerCode}
               required
             />
-          </fieldset>
+          &lt;/fieldset>
 
-          <h2>Subunidades académicas</h2>
-          <fieldset className="subContainer">
-            <div className="gridContainer">
-              <Card name="addUnit" handleAddCard={() => {}} />
-            </div>
-          </fieldset>
-          <div className="fixedContainer">
-            <RoundButton color="green">
-              <CheckIcon width="2rem" height="2rem" color="white" />
-            </RoundButton>
-            <RoundButton color="red" handler={handleCancel}>
-              <XIcon width="2rem" height="2rem" color="white" />
-            </RoundButton>
-          </div>
-        </form>
-      </main>
-    </>
+          &lt;h2>Subunidades académicas&lt;/h2>
+          &lt;fieldset className="subContainer">
+            &lt;div className="gridContainer">
+              &lt;Card name="addUnit" handleAddCard={() => {}} />
+            &lt;/div>
+          &lt;/fieldset>
+          &lt;div className="fixedContainer">
+            &lt;RoundButton color="green">
+              &lt;CheckIcon width="2rem" height="2rem" color="white" />
+            &lt;/RoundButton>
+            &lt;RoundButton color="red" handler={handleCancel}>
+              &lt;XIcon width="2rem" height="2rem" color="white" />
+            &lt;/RoundButton>
+          &lt;/div>
+        &lt;/form>
+      &lt;/main>
+    &lt;/>
   )
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ALERT_CFG">ALERT_CFG</a></li><li><a href="global.html#ArrowIcon">ArrowIcon</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#CheckIcon">CheckIcon</a></li><li><a href="global.html#EditIcon">EditIcon</a></li><li><a href="global.html#LogoutIcon">LogoutIcon</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#PATTERNS">PATTERNS</a></li><li><a href="global.html#PlusIcon">PlusIcon</a></li><li><a href="global.html#TITLES">TITLES</a></li><li><a href="global.html#TrashIcon">TrashIcon</a></li><li><a href="global.html#UdeaIcon">UdeaIcon</a></li><li><a href="global.html#Units">Units</a></li><li><a href="global.html#ViewSubunit">ViewSubunit</a></li><li><a href="global.html#ViewUnit">ViewUnit</a></li><li><a href="global.html#XIcon">XIcon</a></li><li><a href="global.html#theme">theme</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri May 26 2023 14:01:05 GMT-0500 (hora estándar de Colombia)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
