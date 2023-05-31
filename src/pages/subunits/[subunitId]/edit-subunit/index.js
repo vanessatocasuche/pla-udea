@@ -34,7 +34,7 @@ export default function EditSubunit() {
    * @param {string} code - El código de la subunidad académica.
    */
   const getSubunitData = async (code) => {
-    fetch(`${BASE_API_URL}/academicSubUnit/all`, {
+    fetch(`${BASE_API_URL}/academicSubUnit/${code}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -42,14 +42,10 @@ export default function EditSubunit() {
     })
       .then((response) => response.json())
       .then((data) => {
-        const dataFilter = data.filter(
-          (subunit) => subunit.idAcademicSubUnit === parseInt(subunitId)
-        )
-        setSubunit(dataFilter[0])
+        setSubunit(data)
         setLoading(false)
-        setType(data.typeAcademicUnit)
-        console.log(data)
-        setPrograms(data.subunits)
+        setType(data.typeAcademicSubUnit)
+        setPrograms(data.programs)
       })
   }
 
@@ -67,8 +63,7 @@ export default function EditSubunit() {
   function handleSubmit(event) {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.target))
-    formData.subunits = programs
-    fetch(`${BASE_API_URL}/api`, {
+    fetch(`${BASE_API_URL}/academicSubUnit/${subunitId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -140,7 +135,7 @@ export default function EditSubunit() {
               />
               <Select
                 id="typeAcademicSubUnit"
-                name="type"
+                name="typeAcademicSubUnit"
                 onChange={setType}
                 value={type}
                 options={SUBUNIT_TYPES}
