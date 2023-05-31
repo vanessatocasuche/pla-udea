@@ -1,6 +1,7 @@
 # Aplicación Web - Gestión del Plan de Estudios
 
 ## Mapa del sitio web
+
 - /create-unit
 - /units
 - - /index
@@ -13,3 +14,8 @@
 - - - /create-program
 - /programs
 - - /[programId]
+- - - /edit-program
+- - - /create-version
+- - - /versions
+- - - - /[versionId]
+- - - - - /edit-version
