@@ -43,6 +43,9 @@ export default function CreateUnit() {
         if (response.ok) {
           return response.json()
         }
+        if (response.status === 400) {
+          throw new Error('Ya existe una unidad académica con ese código')
+        }
         throw new Error('Error al crear la unidad académica')
       })
       .then((data) => {
@@ -54,8 +57,10 @@ export default function CreateUnit() {
           })
         }
       })
-      .catch(() => {
-        Swal.fire(ALERT_CFG.error)
+      .catch((error) => {
+        const alertCfg = ALERT_CFG.error
+        alertCfg.text = error.message
+        Swal.fire(alertCfg)
       })
   }
   /**
