@@ -1,11 +1,13 @@
 import { RoundButton } from '@/components/Buttons'
 import Card from '@/components/Card'
-import { ArrowIcon, EditIcon } from '@/components/Icons'
+import { ArrowIcon, EditIcon, TrashIcon } from '@/components/Icons'
 import Loader from '@/components/Loader'
 import NavBar from '@/components/NavBar'
+import { ALERT_CFG } from '@/constants/alerts'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import Swal from 'sweetalert2'
 
 /**
  * Componente página para mostrar los detalles de una subunidad académica.
@@ -26,7 +28,7 @@ const ViewSubunit = () => {
    * @param {string} id - El ID de la subunidad académica.
    */
   function getSubunit(id) {
-    fetch(`${BASE_API_URL}/academicSubUnit/all`, {
+    fetch(`${BASE_API_URL}/academicSubUnit/${subunitId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -34,18 +36,38 @@ const ViewSubunit = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        const dataFilter = data.filter(
-          (subunit) => subunit.idAcademicSubUnit === parseInt(id)
-        )
-        setData(dataFilter[0])
-        return data
+        setData(data)
+        setLoading(false)
       })
+  }
+
+  /**
+   * Maneja el evento de eliminación de la subunidad académica y muestra una confirmación al usuario.
+   */
+  const deleteSubUnit = () => {
+    Swal.fire(ALERT_CFG.delete).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`${BASE_API_URL}/academicSubUnit/${subunitId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then((response) => {
+          if (response.status === 200) {
+            router.push(
+              data.academicUnitId ? `/units/${data.academicUnitId}` : '/units'
+            )
+          } else {
+            Swal.fire(ALERT_CFG.error)
+          }
+        })
+      }
+    })
   }
 
   useEffect(() => {
     if (subunitId) {
       getSubunit(subunitId)
-      setLoading(false)
     }
   }, [subunitId])
 
@@ -62,7 +84,13 @@ const ViewSubunit = () => {
           <div style={{ display: 'flex', gap: '1rem' }}>
             <RoundButton
               color="yellow"
-              handler={() => router.push(`/units${'/'}`)}
+              handler={() =>
+                router.push(
+                  data.academicUnitId
+                    ? `/units/${data.academicUnitId}`
+                    : '/units'
+                )
+              }
             >
               <ArrowIcon color="white" height="2rem" width="2rem" />
             </RoundButton>
@@ -98,13 +126,17 @@ const ViewSubunit = () => {
               <p>No hay programas académicos registrados</p>
             )}
           </section>
-          <RoundButton
-            fixed
-            color="purple"
-            handler={() => router.push(`/subunits/${subunitId}/edit-subunit`)}
-          >
-            <EditIcon color="white" width="2rem" height="2rem" />
-          </RoundButton>
+          <div className="fixedContainer">
+            <RoundButton color="red" handler={deleteSubUnit}>
+              <TrashIcon color="white" width="2rem" height="2rem" />
+            </RoundButton>
+            <RoundButton
+              color="purple"
+              handler={() => router.push(`/subunits/${subunitId}/edit-subunit`)}
+            >
+              <EditIcon color="white" width="2rem" height="2rem" />
+            </RoundButton>
+          </div>
         </main>
       ) : (
         <p>No hay datos registrados para el programa académico solicitado</p>
