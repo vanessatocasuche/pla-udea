@@ -45,6 +45,9 @@ export default function CreateSubunit() {
         if (response.ok) {
           return response.json()
         }
+        if (response.status === 400) {
+          throw new Error('Ya existe una subunidad académica con ese código')
+        }
         throw new Error('Error al crear la subunidad académica')
       })
       .then((data) => {
@@ -56,8 +59,10 @@ export default function CreateSubunit() {
           })
         }
       })
-      .catch(() => {
-        Swal.fire(ALERT_CFG.error)
+      .catch((error) => {
+        const alertCfg = ALERT_CFG.error
+        alertCfg.text = error.message
+        Swal.fire(alertCfg)
       })
   }
 

@@ -1,40 +1,41 @@
+import { useEffect, useState } from 'react'
+import Swal from 'sweetalert2'
+import Head from 'next/head'
 import Card from '@/components/Card'
 import Input from '@/components/Input'
 import Select from '@/components/Select'
-import { useEffect, useState } from 'react'
+import NavBar from '@/components/NavBar'
+import Loader from '@/components/Loader'
 import { CheckIcon, XIcon, ArrowIcon } from '@/components/Icons'
 import { RoundButton } from '@/components/Buttons'
-import NavBar from '@/components/NavBar'
 import { useRouter } from 'next/router'
 import { PATTERNS, TITLES } from '@/constants/forms'
-import Swal from 'sweetalert2'
 import { ALERT_CFG } from '@/constants/alerts'
-import Loader from '@/components/Loader'
-import Head from 'next/head'
 
 const BASE_API_URL = process.env.BASE_API_URL
-const SUBUNIT_TYPES = ['Departamento', 'Escuela', 'Instituto']
+const PROGRAM_TYPES = ['Departamento', 'Escuela', 'Instituto']
+const MODALITIES = ['Presencial', 'Virtual', 'Mixto', 'Distancia']
 /**
- * Página de edición de subunidad académica.
- * Permite editar la información de una subunidad académica que se encuentra registrada.
+ * Página de edición de programa académico.
+ * Permite editar la información de un programa académico que se encuentra registrado.
  *
- * @returns {JSX.Element} Elemento JSX que representa la página de edición de subunidad académica.
+ * @returns {JSX.Element} Elemento JSX que representa la página de edición de programa académico.
  */
-export default function EditSubunit() {
+export default function EditProgram() {
   const router = useRouter()
-  const { subunitId } = router.query
+  const { programId } = router.query
   const [type, setType] = useState('')
-  const [programs, setPrograms] = useState([])
+  const [modality, setModality] = useState('')
   const [loading, setLoading] = useState(true)
-  const [subunit, setSubunit] = useState({})
+  const [program, setProgram] = useState({})
 
   /**
-   * Obtiene los datos de la subunidad académica desde el servidor.
+   * Obtiene los datos del programa académico desde el servidor.
    *
-   * @param {string} code - El código de la subunidad académica.
+   * @param {string} code - El código del programa académico.
    */
-  const getSubunitData = async (code) => {
-    fetch(`${BASE_API_URL}/academicSubUnit/${code}`, {
+  const getProgramData = async (code) => {
+    fetch(`${BASE_API_URL}/academicProgram/${code}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -42,28 +43,28 @@ export default function EditSubunit() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setSubunit(data)
+        setProgram(data)
         setLoading(false)
-        setType(data.typeAcademicSubUnit)
-        setPrograms(data.programs)
+        setType(data.typeAcademicUnit)
+        setModality(data.modalityAcademicProgram)
       })
   }
 
   useEffect(() => {
-    if (subunitId) {
-      getSubunitData(subunitId)
+    if (programId) {
+      getProgramData(programId)
     }
-  }, [subunitId])
+  }, [programId])
 
   /**
-   * Maneja la submisión del formulario de edición de subunidad académica.
+   * Maneja la submisión del formulario de edición de programa académico.
    *
    * @param {Event} event - Evento de formulario.
    */
   function handleSubmit(event) {
     event.preventDefault()
     const formData = Object.fromEntries(new FormData(event.target))
-    fetch(`${BASE_API_URL}/academicSubUnit/${subunitId}`, {
+    fetch(`${BASE_API_URL}/programs/${programId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -73,11 +74,11 @@ export default function EditSubunit() {
       .then((response) => {
         if (response.ok) {
           Swal.fire(ALERT_CFG.success).then(() => {
-            router.push(`/subunits/${subunitId}`)
+            router.push(`/programs/${programId}`)
           })
           return response.json()
         }
-        throw new Error('Error al editar la subunidad académica')
+        throw new Error('Error al editar el programa académico')
       })
       .catch(() => {
         Swal.fire(ALERT_CFG.error)
@@ -85,7 +86,7 @@ export default function EditSubunit() {
   }
 
   /**
-   * Maneja la cancelación de la edición de la subunidad académica.
+   * Maneja la cancelación de la edición del programa académico.
    *
    * @param {Event} event - Evento de formulario.
    */
@@ -93,7 +94,7 @@ export default function EditSubunit() {
     event.preventDefault()
     Swal.fire(ALERT_CFG.cancel).then((result) => {
       if (result.isConfirmed) {
-        router.push(`/subunits/${subunitId}`)
+        router.push(`/programs/${programId}`)
       }
     })
   }
@@ -101,7 +102,7 @@ export default function EditSubunit() {
   return (
     <>
       <Head>
-        <title>Editar Subunidad Académica</title>
+        <title>Editar Programa Académico</title>
       </Head>
       <NavBar />
       <main className="container">
@@ -109,7 +110,7 @@ export default function EditSubunit() {
           <RoundButton color="yellow" handler={handleCancel}>
             <ArrowIcon color="white" height="2rem" width="2rem" />
           </RoundButton>
-          <h1>Editar Subunidad Académica</h1>
+          <h1>Editar Programa Académico</h1>
         </div>
         {loading ? (
           <Loader />
@@ -118,37 +119,26 @@ export default function EditSubunit() {
             <h2>Información general</h2>
             <fieldset className="subContainer">
               <Input
-                id="nameAcademicSubUnit"
-                placeholder="Nombre de la subunidad académica"
-                label="Nombre de la subunidad académica"
+                id="nameAcademicProgram"
+                placeholder="Nombre del programa académico"
+                label="Nombre del programa académico"
                 pattern={PATTERNS.name}
                 title={TITLES.name}
-                initialValue={subunit.nameAcademicSubUnit}
+                initialValue={program.nameAcademicProgram}
                 required
               />
               <Input
-                id="codeAcademicSubUnit"
-                label="Código de la subunidad académica"
-                initialValue={subunit.codeAcademicSubUnit}
+                id="codeAcademicProgram"
+                label="Código del programa académico"
+                initialValue={program.codeAcademicProgram}
                 disabled
                 required
               />
-              <Select
-                id="typeAcademicSubUnit"
-                name="typeAcademicSubUnit"
-                onChange={setType}
-                value={type}
-                options={SUBUNIT_TYPES}
-                label="Tipo de subunidad académica"
-                required
-              />
               <Input
-                id="headName"
-                placeholder="Nombre del Jefe de la subunidad académica"
-                label="Nombre del Jefe de la subunidad académica"
-                pattern={PATTERNS.name}
-                title={TITLES.name}
-                initialValue={subunit.headName}
+                id="sniesCode"
+                label="Código SNIES del programa académico"
+                initialValue={program.sniesCode}
+                disabled
                 required
               />
               <Input
@@ -157,7 +147,25 @@ export default function EditSubunit() {
                 label="Descripción"
                 pattern={PATTERNS.description}
                 title={TITLES.description}
-                initialValue={subunit.description}
+                initialValue={program.description}
+                required
+              />
+              <Select
+                id="typeAcademicProgram"
+                name="typeAcademicProgram"
+                onChange={setType}
+                value={type}
+                options={PROGRAM_TYPES}
+                label="Tipo de programa académico"
+                required
+              />
+              <Select
+                id="modalityAcademicProgram"
+                name="modalityAcademicProgram"
+                onChange={setModality}
+                value={modality}
+                options={MODALITIES}
+                label="Modalidad del programa académico"
                 required
               />
             </fieldset>
@@ -165,18 +173,10 @@ export default function EditSubunit() {
             <h2>Programas académicos</h2>
             <fieldset className="subContainer">
               <div className="gridContainer">
-                {programs &&
-                  programs.map((program) => (
-                    <Card
-                      key={`${program}`}
-                      id={`/programs/${program}`}
-                      content={program}
-                    />
-                  ))}
                 <Card
                   handleAddCard={(evt) => {
                     evt.preventDefault()
-                    router.push(`/subunits/${subunitId}/create-program`)
+                    router.push(`/subunits/${programId}/create-program`)
                   }}
                 />
               </div>
