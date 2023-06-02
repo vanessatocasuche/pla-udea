@@ -36,6 +36,14 @@ const ViewSubunit = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        if (subunitId === '2') {
+          data.programs = [
+            { id: 1, name: 'Ingeniería de Sistemas' },
+            { id: 2, name: 'Ingeniería de Sistemas - Virtual' }
+          ]
+        } else {
+          data.programs = []
+        }
         setData(data)
         setLoading(false)
       })
@@ -45,24 +53,31 @@ const ViewSubunit = () => {
    * Maneja el evento de eliminación de la subunidad académica y muestra una confirmación al usuario.
    */
   const deleteSubUnit = () => {
-    Swal.fire(ALERT_CFG.delete).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`${BASE_API_URL}/academicSubUnit/${subunitId}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }).then((response) => {
-          if (response.status === 200) {
-            router.push(
-              data.academicUnitId ? `/units/${data.academicUnitId}` : '/units'
-            )
-          } else {
-            Swal.fire(ALERT_CFG.error)
-          }
-        })
-      }
-    })
+    if (data.programs.length === 0) {
+      Swal.fire(ALERT_CFG.delete).then((result) => {
+        if (result.isConfirmed) {
+          fetch(`${BASE_API_URL}/academicSubUnit/${subunitId}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }).then((response) => {
+            if (response.status === 200) {
+              router.push(
+                data.academicUnitId ? `/units/${data.academicUnitId}` : '/units'
+              )
+            } else {
+              Swal.fire(ALERT_CFG.error)
+            }
+          })
+        }
+      })
+    } else {
+      const alertConfig = ALERT_CFG.error
+      alertConfig.text =
+        'No se puede eliminar una subunidad académica que tiene programas académicos asociados'
+      Swal.fire(alertConfig)
+    }
   }
 
   useEffect(() => {
@@ -116,10 +131,10 @@ const ViewSubunit = () => {
           </section>
           <section className="subContainer">
             <h2>Programas Académicos</h2>
-            {data.programs ? (
+            {data.programs.length > 0 ? (
               <div className="gridContainer">
-                {data.programs.map((program) => (
-                  <Card key={`${program}`} content={program} />
+                {data.programs.map(({ id, name }) => (
+                  <Card id={`/programs/${id}`} key={`${id}`} content={name} />
                 ))}
               </div>
             ) : (
