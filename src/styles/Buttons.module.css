@@ -29,9 +29,9 @@
 * Boton secundario
 */
 .secondaryButton {
-  width: 15rem;
+  width: 20rem;
+  padding: 0.25rem;
   height: 100%;
-  padding: 0.15rem;
   cursor: pointer;
   background: var(--primary-color-3);
   border-radius: 2rem;

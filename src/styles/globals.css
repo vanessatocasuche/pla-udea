@@ -123,9 +123,20 @@ p {
 
 .fixedContainer {
   position: fixed;
+  z-index: 100;
   right: 1rem;
   bottom: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.615rem;
+}
+
+.deleteButton {
+  border: none;
+  cursor: pointer;
+  background: none;
+  color: var(--secondary-color-red);
+  text-decoration: underline;
+  padding: 1rem 0 0 0;
+  font-size: 1rem;
 }
