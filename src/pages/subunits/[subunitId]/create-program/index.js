@@ -12,7 +12,7 @@ import { PATTERNS, TITLES } from '@/constants/forms'
 import { ALERT_CFG } from '@/constants/alerts'
 
 const BASE_API_URL = process.env.BASE_API_URL
-const PROGRAM_TYPES = ['Departamento', 'Escuela', 'Instituto']
+const PROGRAM_TYPES = ['Pregrado', 'Especialización', 'Maestría', 'Doctorado']
 const MODALITIES = ['Presencial', 'Virtual', 'Mixto', 'Distancia']
 
 /**
