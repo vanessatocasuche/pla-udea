@@ -68,11 +68,18 @@ const ViewUnit = () => {
    * Maneja el evento de eliminación de la unidad académica y muestra una confirmación al usuario.
    */
   const deleteUnit = () => {
-    Swal.fire(ALERT_CFG.delete).then((result) => {
-      if (result.isConfirmed) {
-        deleteUnitApi()
-      }
-    })
+    if (data.academicSubUnits?.length > 0) {
+      const alertConfig = ALERT_CFG.error
+      alertConfig.text =
+        'No se puede eliminar una unidad académica que tiene subunidades académicas'
+      Swal.fire(alertConfig)
+    } else {
+      Swal.fire(ALERT_CFG.delete).then((result) => {
+        if (result.isConfirmed) {
+          deleteUnitApi()
+        }
+      })
+    }
   }
 
   useEffect(() => {

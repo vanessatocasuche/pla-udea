@@ -61,5 +61,18 @@ export const ALERT_CFG = {
     confirmButtonText: 'Aceptar',
     confirmButtonColor: theme.colors.secondary.green,
     focusConfirm: true
+  },
+  addSubject: {
+    title: 'Agregar materia',
+    html: `
+      <input type="text" class="form-control swal2-input" id="subjectName" placeholder="Nombre de la materia">
+      <input type="number" min="0" class="form-control swal2-input" id="subjectCode" placeholder="Código de la materia">
+      <input type="number" min="0" class="form-control swal2-input" id="subjectCredits" placeholder="Créditos de la materia">
+      <input type="text" class="form-control swal2-input" id="subjectType" placeholder="Tipo de la materia">
+      <input type="text" class="form-control swal2-input" id="subjectModality" placeholder="Modalidad de la materia">
+    `,
+    focusConfirm: false,
+    confirmButtonText: 'Aceptar',
+    confirmButtonColor: theme.colors.secondary.green
   }
 }
