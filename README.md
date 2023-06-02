@@ -5,7 +5,7 @@
 <h2><a href='https://pla-udea-front.vercel.app/'>WEB</a> | <a href='https://fabrica-escuela-production.up.railway.app/api/academicSubUnit/all'>API</a></h2>
 </div>
 
-![Mockup PLA](https://github.com/JoseGomez14/pla-udea/assets/110755221/9af23d79-1dfc-4c58-b17b-baa8c0d9fd34)
+![Mockup PLA](https://github.com/JoseGomez14/pla-udea/assets/110755221/43dceb31-7060-4613-a142-0542b30190f7)
 
 ## 📖 Tabla de Contenido
 
