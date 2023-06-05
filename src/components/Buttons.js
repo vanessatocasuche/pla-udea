@@ -1,4 +1,5 @@
 import Styles from '@/styles/Buttons.module.css'
+import React from 'react'
 
 /**
 * Componentes de boton.

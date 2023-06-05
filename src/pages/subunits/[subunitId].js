@@ -6,7 +6,7 @@ import NavBar from '@/components/NavBar'
 import { ALERT_CFG } from '@/constants/alerts'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 
 /**

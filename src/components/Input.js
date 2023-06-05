@@ -1,5 +1,5 @@
 import Styles from '@/styles/Input.module.css'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 /**
  * Componente de selección de opciones.
@@ -34,6 +34,7 @@ export default function Input({ value, label, onChange, pattern, initialValue, .
   return (
     <div className={Styles.selectContainer} style={props.style ?? {}}>
       <input
+        data-testid="input-id"
         type={props?.type ?? 'text'}
         className={Styles.input}
         value={value || inpValue}

@@ -1,3 +1,4 @@
+import React from 'react'
 import Styles from '@/styles/Card.module.css'
 import Link from 'next/link'
 import { PlusIcon, TrashIcon } from './Icons'
@@ -27,6 +28,7 @@ export default function Card({
     <div className={Styles.card}>
       {handleAddCard ? (
         <button
+          data-testid="add-card-button"
           className={Styles.addButton}
           title={`Agregar ${props.cardType || ''}`}
           onClick={handleAddCard}
@@ -43,6 +45,7 @@ export default function Card({
           </Link>
           {handleDeleteCard && (
             <button
+              data-testid="delete-card-button"
               className={Styles.deleteButton}
               title={`Eliminar ${props.cardType || ''}`}
               onClick={handleDeleteCard}

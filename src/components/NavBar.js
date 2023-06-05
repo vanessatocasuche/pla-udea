@@ -1,3 +1,4 @@
+import React from 'react'
 import { UdeaIcon, LogoutIcon } from './Icons'
 import Styles from '@/styles/NavBar.module.css'
 
@@ -17,6 +18,7 @@ const NavBar = ({ logged, title, handlerLogout }) => {
         <UdeaIcon color="white" style={{ height: '100%', width: 'auto' }} />
         {title && <h3>{title}</h3>}
         <button
+          data-testid="logout-button"
           className={Styles.logoutBtn}
           onClick={handlerLogout}
           style={{ visibility: logged ? 'visible' : 'hidden' }}

@@ -6,8 +6,12 @@ import NavBar from '@/components/NavBar'
 import { ALERT_CFG } from '@/constants/alerts'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+<<<<<<< HEAD
+import React, { useEffect, useState } from 'react'
+=======
 import { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
+>>>>>>> 9d110ed53da61bdbbaceaa13e3c8fb15c86215c2
 
 /**
  * Componente para la página de visualización de una unidad académica específica.

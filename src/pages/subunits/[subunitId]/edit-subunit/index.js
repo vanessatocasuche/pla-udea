@@ -1,7 +1,7 @@
 import Card from '@/components/Card'
 import Input from '@/components/Input'
 import Select from '@/components/Select'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CheckIcon, XIcon, ArrowIcon } from '@/components/Icons'
 import { RoundButton } from '@/components/Buttons'
 import NavBar from '@/components/NavBar'

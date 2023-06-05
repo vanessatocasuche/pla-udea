@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import logosimboloUdea from '@/assets/logosimbolo-vertical.png'
 import Head from 'next/head'
+import React from 'react'
 
 /**
  * Componente para la página de inicio de la plataforma.

@@ -1,3 +1,4 @@
+import React from 'react'
 import { theme } from '@/theme/theme'
 const COLORS = theme.colors.secondary
 
@@ -15,6 +16,7 @@ const COLORS = theme.colors.secondary
 function PlusIcon({ width, height, color, ...props }) {
   return (
     <svg
+      data-testid="plus-icon"
       xmlns="http://www.w3.org/2000/svg"
       width={width || 48}
       height={height || 48}
@@ -47,6 +49,7 @@ function PlusIcon({ width, height, color, ...props }) {
 function TrashIcon({ width, height, color, ...props }) {
   return (
     <svg
+      data-testid="trash-icon"
       xmlns="http://www.w3.org/2000/svg"
       width={width || 48}
       height={height || 48}
@@ -80,6 +83,7 @@ function TrashIcon({ width, height, color, ...props }) {
 function CheckIcon({ width, height, color, ...props }) {
   return (
     <svg
+      data-testid="check-icon"
       xmlns="http://www.w3.org/2000/svg"
       width={width || 48}
       height={height || 48}
@@ -111,6 +115,7 @@ function CheckIcon({ width, height, color, ...props }) {
 function ArrowIcon({ width, height, color, ...props }) {
   return (
     <svg
+      data-testid="arrow-icon"
       xmlns="http://www.w3.org/2000/svg"
       width={width || 48}
       height={height || 48}
@@ -143,6 +148,7 @@ function ArrowIcon({ width, height, color, ...props }) {
 function EditIcon({ width, height, color, ...props }) {
   return (
     <svg
+      data-testid="edit-icon"
       xmlns="http://www.w3.org/2000/svg"
       width={width || 48}
       height={height || 48}
@@ -174,6 +180,7 @@ function EditIcon({ width, height, color, ...props }) {
 function XIcon({ width, height, color, ...props }) {
   return (
     <PlusIcon
+      data-testid="x-icon"
       style={{ transform: 'rotate(45deg)' }}
       color={color}
       width={width}
@@ -196,6 +203,7 @@ function XIcon({ width, height, color, ...props }) {
 function LogoutIcon({ width, height, color, ...props }) {
   return (
     <svg
+      data-testid="logout-icon"
       xmlns="http://www.w3.org/2000/svg"
       width={width || 48}
       height={height || 48}
@@ -217,6 +225,7 @@ function LogoutIcon({ width, height, color, ...props }) {
 function SearchIcon({ color, width, height, ...props }) {
   return (
     <svg
+      data-testid="search-icon"
       xmlns="http://www.w3.org/2000/svg"
       className="icon icon-tabler icon-tabler-search"
       width={width || 48}
@@ -249,6 +258,7 @@ function SearchIcon({ color, width, height, ...props }) {
 function UdeaIcon({ width, height, color, ...props }) {
   return (
     <svg
+      data-testid="udea-icon"
       xmlns="http://www.w3.org/2000/svg"
       width={width || 212}
       height={height || 64}
